@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/1245consulting.com/public_html
+    - /bin/cp -rf * $DEPLOYPATH
