@@ -1,62 +1,566 @@
 <% meta title: "Home", description: "This field creates an SEO meta description." %>
 
-<!-- This example section is from the tailwindui.com Hero Section component library -->
-<div class="relative bg-white overflow-hidden">
+<!--Hero Section-->
 
-  <div class="relative pt-6 pb-16 sm:pb-24 lg:pb-32">
-    <main class="mt-16 mx-auto max-w-7xl px-4 sm:mt-24 sm:px-6 lg:mt-32">
-      <div class="lg:grid lg:grid-cols-12 lg:gap-8">
-        <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-          <h1>
-            <!-- <span class="block text-sm font-semibold uppercase tracking-wide text-gray-500 sm:text-base lg:text-sm xl:text-base">Coming soon</span> -->
-            <span class="mt-1 block text-4xl tracking-tight font-extrabold sm:text-5xl xl:text-6xl">
-              <span class="block text-gray-900">A great tagline</span>
-              <span class="block text-indigo-600">with emphasis</span>
-            </span>
-          </h1>
-          <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-            More details about our product that you should know about.
-          </p>
-          <div class="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-            <p class="text-base font-medium text-gray-900">
-              Sign up to get started.
-            </p>
-            <form action="<%= new_user_registration_path %>" method="GET" class="mt-3 sm:flex">
-              <label for="email" class="sr-only">Email</label>
-              <input type="email" name="email" id="email" class="block w-full py-3 text-base rounded-md placeholder-gray-500 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:flex-1 border-gray-300" placeholder="Enter your email">
-              <button type="submit" class="mt-3 w-full px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:flex-shrink-0 sm:inline-flex sm:items-center sm:w-auto">
-                Start Free
-              </button>
-            </form>
-            <p class="mt-3 text-sm text-gray-500">
-              We care about the protection of your data. Read our
-              <%= link_to 'Privacy Policy', privacy_path, class: 'font-medium text-gray-900 underline' %>
-            </p>
-          </div>
-        </div>
-        <div class="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-          <svg class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-8 scale-75 origin-top sm:scale-100 lg:hidden" width="640" height="784" fill="none" viewBox="0 0 640 784" aria-hidden="true">
-            <defs>
-              <pattern id="4f4f415c-a0e9-44c2-9601-6ded5a34a13e" x="118" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="white" />
-              </pattern>
-            </defs>
-            <rect y="72" width="640" height="640" class="text-gray-50" fill="white" />
-            <rect x="118" width="404" height="784" fill="url(#4f4f415c-a0e9-44c2-9601-6ded5a34a13e)" />
+<div class="bg-white">
+  <header class="absolute inset-x-0 top-0 z-50">
+    <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <div class="flex lg:flex-1">
+        <a href="#" class="-m-1.5 p-1.5">
+          <span class="sr-only">Your Company</span>
+          <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
+        </a>
+      </div>
+      <div class="flex lg:hidden">
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
-          <div class="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md">
-            <button type="button" class="relative block w-full bg-white rounded-lg overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              <img class="w-full" src="https://images.unsplash.com/photo-1556740758-90de374c12ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="">
-              <div class="absolute inset-0 w-full h-full flex items-center justify-center" aria-hidden="true">
-                <svg class="h-20 w-20 text-indigo-500" fill="white" viewBox="0 0 84 84">
-                  <circle opacity="0.9" cx="42" cy="42" r="42" fill="white" />
-                  <path d="M55.5039 40.3359L37.1094 28.0729C35.7803 27.1869 34 28.1396 34 29.737V54.263C34 55.8604 35.7803 56.8131 37.1094 55.9271L55.5038 43.6641C56.6913 42.8725 56.6913 41.1275 55.5039 40.3359Z" />
-                </svg>
-              </div>
-            </button>
-          </div>
+        </button>
+      </div>
+      <div class="hidden lg:flex lg:gap-x-12">
+        <a href="#process" class="text-sm font-semibold leading-6 text-gray-900">Process</a>
+        <a href="#faq" class="text-sm font-semibold leading-6 text-gray-900">FAQs</a>
+        <a href="#happycustomers" class="text-sm font-semibold leading-6 text-gray-900">Happy Customers</a>
+      </div>
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <a href="tel:832-384-4283" class="text-sm font-semibold leading-6 text-indigo-600">Call us: 832-384-4283<span aria-hidden="true"></span></a>
+      </div>
+    </nav>
+<!--    Mobile menu, show/hide based on menu open state. -->
+<!--    <div class="lg:hidden" role="dialog" aria-modal="true">-->
+<!--      Background backdrop, show/hide based on slide-over state. -->
+<!--      <div class="fixed inset-0 z-50"></div>-->
+<!--      <div class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">-->
+<!--        <div class="flex items-center justify-between">-->
+<!--          <a href="#" class="-m-1.5 p-1.5">-->
+<!--            <span class="sr-only">Your Company</span>-->
+<!--            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">-->
+<!--          </a>-->
+<!--          <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">-->
+<!--            <span class="sr-only">Close menu</span>-->
+<!--            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">-->
+<!--              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />-->
+<!--            </svg>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        <div class="mt-6 flow-root">-->
+<!--          <div class="-my-6 divide-y divide-gray-500/10">-->
+<!--            <div class="space-y-2 py-6">-->
+<!--              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Product</a>-->
+<!--              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Features</a>-->
+<!--              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Marketplace</a>-->
+<!--              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Company</a>-->
+<!--            </div>-->
+<!--            <div class="py-6">-->
+<!--              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</a>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+  </header>
+
+  <div class="relative isolate px-6 pt-14 lg:px-8">
+    <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+      <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+    </div>
+    <div class="mx-auto max-w-2xl sm:py-16 lg:py-4">
+      <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+        <div class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+          We've saved Real Estate Investors over $2 Billion. <a href="#happycustomers" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
-    </main>
+      <div class="text-center">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          We help Real Estate Investors <span class="text-indigo-600"> save money on taxes.</span>
+        </h1>
+        <p class="mt-6 text-lg leading-8 text-gray-600">Our team performs a cost segregation study on your Real Estate to increase your depreciation and defer your taxes this year, all for one affordable price.</p>
+        <div class="mt-10 flex items-center justify-center gap-x-6">
+          <a href="https://form.jotform.com/1245_Consulting/v1" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Send me a free estimate</a>
+          <a href="https://calendly.com/wes1245/cost-seg-chat" target="_blank" class="text-sm font-semibold leading-6 text-gray-900">Schedule a call <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true">
+      <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+    </div>
   </div>
 </div>
+<!--How Cost Segregation Works-->
+
+<div id= "process" class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:px-8">
+      <p class="mt-2 text-3xl text-center font-bold tracking-tight align-top text-gray-900 py-4 sm:text-4xl">How does the Cost Segregation process work?</p>
+    <div class="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
+      <div class="flex flex-col items-center mt-4">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 3.75H6.912a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859M12 3v8.25m0 0l-3-3m3 3l3-3" />
+        </svg>
+        <h3 class="mt-6 text-sm font-medium text-gray-900">Submit your info</h3>
+        <p class="mt-2 text-sm text-gray-500">Send us your Closing statement or the Street address and purchase price. That's all we need to get started.</p>
+      </div>
+      <div class="flex flex-col items-center mt-4">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-8 h-8">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+        </svg>
+        <h3 class="mt-6 text-sm font-medium text-gray-900">We send you free proposal</h3>
+        <p class="mt-2 text-sm text-gray-500">Within 24 hours, we send you back a free estimate of how much we can save you on taxes. Review the finding with your tax professional and we can move forward.</p>
+      </div>
+      <div class="flex flex-col items-center mt-4">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+        </svg>
+        <h3 class="mt-6 text-sm font-medium text-gray-900">We visit to your property</h3>
+        <p class="mt-2 text-sm text-gray-500">We do a comprehensive walk-through. This will help us find you additional tax benefits. If you prefer we do a virtual visit through Facetime, we are set up to handle that as well. Our experienced cost segregation professionals have walked thousands of properties that allows us to leave no stone unturned.</p>
+      </div>
+      <div class="flex flex-col items-center mt-4">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
+        </svg>
+        <h3 class="mt-6 text-sm font-medium text-gray-900">We send you final report</h3>
+        <p class="mt-2 text-sm text-gray-500">After our walkthrough, we send you and your CPA a final report within 72 hours, which highlights the total depreciation expense for the property and include an itemized detail of each building component.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--What's the benefit to me?-->
+
+<div class="overflow-hidden bg-white py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+      <div class="lg:pr-8 lg:pt-4">
+        <div class="lg:max-w-lg">
+          <h2 class="text-base font-semibold leading-7 text-indigo-600">Reduce your taxes</h2>
+          <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">What's the benefit to me?</p>
+          <p class="mt-6 text-lg leading-8 text-gray-600">Over 17 years, we have saved our clients over $2 Billion in taxes.</p>
+          <dl class="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
+            <div class="relative pl-9">
+              <dt class="inline font-semibold text-gray-900">
+                <svg class="absolute left-1 top-1 h-5 w-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M5.5 17a4.5 4.5 0 01-1.44-8.765 4.5 4.5 0 018.302-3.046 3.5 3.5 0 014.504 4.272A4 4 0 0115 17H5.5zm3.75-2.75a.75.75 0 001.5 0V9.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0l-3.25 3.5a.75.75 0 101.1 1.02l1.95-2.1v4.59z" clip-rule="evenodd" />
+                </svg>
+                Straight-line Depreciation.
+              </dt>
+              <dd class="inline">Most people use straight line depreciation. Which means they depreciate the value of their property by 27.5 years. If you have a $10M property, that results in ~$360k per year in depreciation.</dd>
+            </div>
+            <div class="relative pl-9">
+              <dt class="inline font-semibold text-gray-900">
+                <svg class="absolute left-1 top-1 h-5 w-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
+                </svg>
+                Cost Segregation.
+              </dt>
+              <dd class="inline">Instead, we itemize every part of your property. Roofs, Windows, Doors, etc. And apply a useful life (not just a broad 27.5 years) to each item. This results in a higher depreciation amount. As an example, we may increase that depreciation to $2.8M in year one. This results in a much larger tax defferal to you.</dd>
+            </div>
+<!--            <div class="relative pl-9">-->
+<!--              <dt class="inline font-semibold text-gray-900">-->
+<!--                <svg class="absolute left-1 top-1 h-5 w-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">-->
+<!--                  <path d="M4.632 3.533A2 2 0 016.577 2h6.846a2 2 0 011.945 1.533l1.976 8.234A3.489 3.489 0 0016 11.5H4c-.476 0-.93.095-1.344.267l1.976-8.234z" />-->
+<!--                  <path fill-rule="evenodd" d="M4 13a2 2 0 100 4h12a2 2 0 100-4H4zm11.24 2a.75.75 0 01.75-.75H16a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75h-.01a.75.75 0 01-.75-.75V15zm-2.25-.75a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 00.75-.75V15a.75.75 0 00-.75-.75h-.01z" clip-rule="evenodd" />-->
+<!--                </svg>-->
+<!--                Bonus Depreciation.-->
+<!--              </dt>-->
+<!--              <dd class="inline">Then, using Section 179 in the IRS tax code, you are able to apply the total depreciation we calculated against your income in year 1. In that same example of the $10M property, that means you can get $8M in depreciation year 1, rather than the ~$360k</dd>-->
+<!--            </div>-->
+          </dl>
+        </div>
+      </div>
+      <%= image_tag('tax_picture.avif', alt: 'Product screenshot', class: 'w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0', width: '2432', height: '1442') %>
+    </div>
+  </div>
+</div>
+
+
+<!--Does my property qualify for cost segregation?-->
+
+<div class="bg-white py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:text-center">
+      <h2 class="text-base font-semibold leading-7 text-indigo-600">Most Real Estate property qualifies</h2>
+      <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Does my Property qualify for Cost Segregation?</p>
+      <p class="mt-6 text-lg leading-8 text-gray-600">Excluding your primary residence, most real estate that was built after 1986 qualifies for Depreciation. Below are some of the most common types of Real Estate that qualify. </p>
+
+      <ul role="list" class="mx-auto mt-20 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16 text-center sm:grid-cols-3 md:grid-cols-3 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-3">
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/apartment" title="Apartment icons created by Rasama studio - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/multifamily_icon.png" alt="Apartment icons">
+          </a>
+          <h3 class="mt-4 text-base font-semibold leading-7 tracking-tight text-gray-900">Multifamily</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/storage" title="Storage icons created by Nhor Phai - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/self_storage_icon.png" alt="Self Storage icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Self storage</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/retail" title="Retail icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/retail_icon.png" alt="Retail icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Retail</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/gas-station" title="Gas station icons created by surang - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/gas_station_icon.png" alt="Gas Station icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Gas Stations</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/work" title="Work icons created by geotatah - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/office.png" alt="Gas Station icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Office</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/industrial" title="Industrial icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/industrial.png" alt="Industrial icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Industrial Warehouses</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/hotel" title="Hotel icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/hotel.png" alt="Hotel icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Hotels / Motels</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/house" title="House icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/str.png" alt="Hotel icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Short-term Rentals</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/restaurant" title="Restaurant icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/restaurant.png" alt="Restaurant icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Restaurants</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/assisted-living" title="Assisted living icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/assisted-living.png" alt="Assisted Living icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Senior Housing</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/car-wash" title="Car wash icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/car-wash.png" alt="Car Wash icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Car Wash</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/golf-field" title="Golf Field icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/golf-field.png" alt="Golf Field icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Golf Course</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/trailer" title="Trailer icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/mobile_home_park.png" alt="Mobile Home Park icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Mobile Home park</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/fitness-center" title="Fitness Center icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/fitness_center.png" alt="Fitness Center icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Fitness Center</h3>
+        </li>
+        <li class="flex flex-col items-center">
+          <a href="https://www.flaticon.com/free-icons/pharmacy" title="Pharmacy icons created by Freepik - Flaticon">
+            <img class="h-24 mx-auto" src="/assets/medical-office.png" alt="Pharmacy icons">
+          </a>
+          <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">Medical Office</h3>
+        </li>
+
+        <!-- More people... -->
+
+      </ul>
+    </div>
+  </div>
+</div>
+<!--What's the catch?-->
+
+<div class="bg-white py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+      <p class="text-base font-semibold leading-7 text-indigo-600">Audit Proof</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">What's the catch?</h1>
+      <div class="mt-10 grid max-w-xl grid-cols-1 gap-8 text-base leading-7 text-gray-700 lg:max-w-none lg:grid-cols-2">
+        <div>
+          <p>No catch. Section 1245 of the IRS Tax code states that property, equipment, furniture, and fixtures are eligibile for cost segregation studies.</p>
+          <p class="mt-8">Cost Segregation is for anyone who wants to reduce their taxable income. It was implemented in TKTK through the JOBS act in order to provider additional tax benefits for Real Estate owners and investors.</p>
+        </div>
+        <div>
+          <p>However, cost segregation likely shouldn't be used for people who are planning to sell their property within the next 12 months. </p>
+          <p class="mt-8">This is because of depreciation recapture. Cost segregation is a way to defer taxes, not fully eliminate them. When you sell your property, the depreciation you took in prior years, gets "added back" to the sales price. However, you can typically offset these gains by taking depreciation on another property.</p>
+        </div>
+      </div>
+      <div class="mt-10 flex">
+        <a href="https://form.jotform.com/1245_Consulting/v1" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>
+      </div>
+    </div>
+  </div>
+  <div class="relative overflow-hidden pt-16 lg:pt-20">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <%#= image_tag("car_wash.jpeg", class: "mx-auto h-24 w-24 rounded-full", alt: "") %>
+      <%= image_tag("real_estate.jpeg", class: "mb-[-12%] rounded-xl shadow-2xl ring-1 ring-gray-900/10 h-75 w-150") %>
+      <div class="relative" aria-hidden="true">
+        <div class="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-white pt-[7%]"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Our Track Record-->
+
+<div class="relative bg-white">
+  <img class="h-56 w-full rounded-xl shadow-lg ring-1 ring-gray-900/10 bg-gray-50 object-cover lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-1/2" src="<%= asset_path('workspace.jpeg') %>" alt="">
+  <div class="mx-auto grid max-w-7xl lg:grid-cols-2">
+    <div class="px-6 pb-24 pt-16 sm:pb-32 sm:pt-20 lg:col-start-2 lg:px-8 lg:pt-32">
+      <div class="mx-auto max-w-2xl lg:mr-0 lg:max-w-lg">
+        <h2 class="text-base font-semibold leading-8 text-indigo-600">Our track record</h2>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Trusted by hundreds of clients for almost two decades</p>
+        <p class="mt-6 text-lg leading-8 text-gray-600">We pride ourselves on delivering high-quality work for clients.</p>
+        <dl class="mt-16 grid max-w-xl grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 xl:mt-16">
+          <div class="flex flex-col gap-y-3 border-l border-gray-900/10 pl-6">
+            <dt class="text-sm leading-6 text-gray-600">Taxes Deferred for Investors</dt>
+            <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900">$2.3 Billion</dd>
+          </div>
+          <div class="flex flex-col gap-y-3 border-l border-gray-900/10 pl-6">
+            <dt class="text-sm leading-6 text-gray-600">Cost Seg Studies Performed</dt>
+            <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900">2,000+</dd>
+          </div>
+          <div class="flex flex-col gap-y-3 border-l border-gray-900/10 pl-6">
+            <dt class="text-sm leading-6 text-gray-600">Years in Business</dt>
+            <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900">17</dd>
+          </div>
+          <div class="flex flex-col gap-y-3 border-l border-gray-900/10 pl-6">
+            <dt class="text-sm leading-6 text-gray-600">NPS Score from Clients</dt>
+            <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900">99/100</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Testimonials-->
+
+<div id="happycustomers" class="relative isolate bg-white pb-32 pt-24 sm:pt-32">
+  <div class="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden opacity-30 blur-3xl" aria-hidden="true">
+    <div class="ml-[max(50%,38rem)] aspect-[1313/771] w-[82.0625rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+  </div>
+  <div class="absolute inset-x-0 top-0 -z-10 flex transform-gpu overflow-hidden pt-32 opacity-25 blur-3xl sm:pt-40 xl:justify-end" aria-hidden="true">
+    <div class="ml-[-22rem] aspect-[1313/771] w-[82.0625rem] flex-none origin-top-right rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] xl:ml-0 xl:mr-[calc(50%-12rem)]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+  </div>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-xl text-center">
+      <h2 class="text-lg font-semibold leading-8 tracking-tight text-indigo-600">Happy Customers</h2>
+      <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">We have delivered on our promises for hundreds of amazing people</p>
+    </div>
+    <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 grid-rows-1 gap-8 text-sm leading-6 text-gray-900 sm:mt-20 sm:grid-cols-2 xl:mx-0 xl:max-w-none xl:grid-flow-col xl:grid-cols-4">
+      <figure class="col-span-2 hidden sm:block sm:rounded-2xl sm:bg-white sm:shadow-lg sm:ring-1 sm:ring-gray-900/5 xl:col-start-2 xl:row-end-1">
+        <blockquote class="p-12 text-xl font-semibold leading-8 tracking-tight text-gray-900">
+          <p>“Just reviewed my first cost seg studies that were done by 1245 Consulting. Paid for themselves many times over.”</p>
+        </blockquote>
+        <figcaption class="flex items-center gap-x-4 border-t border-gray-900/10 px-6 py-4">
+          <img class="h-10 w-10 flex-none rounded-full bg-gray-50" src="/assets/Anthony_Tumbiolo.png" alt="">
+          <div class="flex-auto">
+            <div class="font-semibold">Anthony Tumbiolo</div>
+            <div class="text-gray-600">@AnthonyTumbiolo</div>
+          </div>
+<!--          <img class="h- w-auto flex-none" src="/assets/Anthony_Tumbiolo_logo.jpeg" alt="">-->
+        </figcaption>
+      </figure>
+      <div class="space-y-8 xl:contents xl:space-y-0">
+        <div class="space-y-8 xl:row-span-2">
+          <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+            <blockquote class="text-gray-900">
+              <p>“Had a great time connecting with Wes Mabry earlier this week and walking some of our properties. Terrific guy & knows his stuff. Highly Recommend for anyone looking for a cost seg study. If you think your stuff is too small, have him take a look anyway.”</p>
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-x-4">
+              <img class="h-10 w-10 rounded-full bg-gray-50" src="/assets/Michael_PNWRE.jpeg" alt="">
+              <div>
+                <div class="font-semibold">Michael DeLaney</div>
+                <div class="text-gray-600">@Michaelpnwre</div>
+              </div>
+            </figcaption>
+          </figure>
+
+          <!-- More testimonials... -->
+        </div>
+        <div class="space-y-8 xl:row-start-1">
+          <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+            <blockquote class="text-gray-900">
+              <p>“Wes handles all of our cost segregation studies and is an absolute professional. Highly recommend using him for your properties!”</p>
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-x-4">
+              <img class="h-10 w-10 rounded-full bg-gray-50" src="/assets/Jeffrey_Rasco.jpeg" alt="">
+              <div>
+                <div class="font-semibold">Jeffrey Rasco</div>
+                <div class="text-gray-600">@jeffreyrasco</div>
+              </div>
+            </figcaption>
+          </figure>
+
+          <!-- More testimonials... -->
+        </div>
+      </div>
+      <div class="space-y-8 xl:contents xl:space-y-0">
+        <div class="space-y-8 xl:row-start-1">
+          <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+            <blockquote class="text-gray-900">
+              <p>“Asked Wes for a 2nd opinion on cost segregation years ago and have been using him ever since. Works fast, detailed, and knows his stuff! ”</p>
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-x-4">
+              <img class="h-10 w-10 rounded-full bg-gray-50" src="/assets/Rohun.jpg" alt="">
+              <div>
+                <div class="font-semibold">Rohun Jauhar</div>
+                <div class="text-gray-600">@RohunJauhar</div>
+              </div>
+            </figcaption>
+          </figure>
+
+          <!-- More testimonials... -->
+        </div>
+        <div class="space-y-8 xl:row-span-2">
+          <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+            <blockquote class="text-gray-900">
+              <p>“We use 1245 Consulting for all of our cost segregation studies on our properties. Saved us tens of thousands in taxes and charge a fair price.”</p>
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-x-4">
+              <img class="h-10 w-10 rounded-full bg-gray-50" src="assets/Taylor_Jones.jpeg" alt="">
+              <div>
+                <div class="font-semibold">Taylor Jones</div>
+                <div class="text-gray-600">@MrJonesSTRs</div>
+              </div>
+            </figcaption>
+          </figure>
+
+          <!-- More testimonials... -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Meet our Team-->
+
+<!--<div id="team" class="bg-white py-24 sm:py-32">-->
+<!--  <div class="mx-auto max-w-7xl px-6 lg:px-8">-->
+<!--    <div class="mx-auto max-w-2xl sm:text-center">-->
+<!--      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Meet our Team</h2>-->
+<!--      <p class="mt-6 text-lg leading-8 text-gray-600">We’re a dynamic group of individuals who are passionate about what we do and dedicated to delivering the best results for our clients.</p>-->
+<!--    </div>-->
+<!--    <ul role="list" class="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-6 gap-y-20 sm:grid-cols-2 lg:max-w-4xl lg:gap-x-8 xl:max-w-none">-->
+<!--      <li class="flex flex-col gap-6 xl:flex-row">-->
+<!--        <img class="aspect-[4/5] w-52 flex-none rounded-2xl object-cover" src="<%#=asset_path('wes_mabry_headshot.png') %>" alt="">-->
+<!--        <div class="flex-auto">-->
+<!--          <h3 class="text-lg font-semibold leading-8 tracking-tight text-gray-900">Wes Mabry</h3>-->
+<!--          <p class="text-base leading-7 text-gray-600">CEO</p>-->
+<!--          <p class="mt-6 text-base leading-7 text-gray-600">My entire career has been focused in the Cost Segregation business. I pride myself on delivering high quality work for clients in a time-efficient manner. If you work with us, you have my guarantee of client happiness.</p>-->
+<!--        </div>-->
+<!--      </li>-->
+
+<!--      <!-- More people... -->
+<!--      <li class="flex flex-col gap-6 xl:flex-row">-->
+<!--        <img class="aspect-[4/5] w-52 flex-none rounded-2xl object-cover" src="<%#= asset_path('chris_hall_headshot.png') %>" alt="">-->
+<!--        <div class="flex-auto">-->
+<!--          <h3 class="text-lg font-semibold leading-8 tracking-tight text-gray-900">Chris Hall</h3>-->
+<!--          <p class="text-base leading-7 text-gray-600">Lead Engineer</p>-->
+<!--          <p class="mt-6 text-base leading-7 text-gray-600">My entire career has been focused in the Cost Segregation business. I pride myself on delivering high quality work for clients in a time-efficient manner. If you work with us, you have my guarantee of client happiness.</p>-->
+<!--        </div>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<!-- Get your free estimate -->
+<!--
+  This example requires some changes to your config:
+
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
+
+<!--Contact us-->
+<div class="bg-white">
+  <div class="px-6 py-12 sm:px-6 sm:py-32 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Want to learn more?</h2>
+      <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">Click below to send us an email, schedule a call, or get your free estimate!</p>
+      <div class="mt-10 flex items-center justify-center gap-x-6">
+        <a href="https://form.jotform.com/1245_Consulting/v1" target="_blank" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get a Free Estimate</a>
+        <a href="mailto:wes@1245consulting.com?subject=Free%20Cost%20Seg%20Estimate&body=Hey%20Wes%20-%20I'm%20interested%20in%20getting%20a%20free%20cost%20segregation%20estimate%20on%20my%20property.%20I'm%20reaching%20out%20from%20your%20website.%20Please%20let%20me%20know%20any%20info%20you%20need%20from%20me%20--%20thanks%21"
+          class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          Email us</a>
+        <a href="https://calendly.com/wes1245/cost-seg-chat" target="_blank" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Schedule a call</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--FAQs-->
+<!--<div id="faq" class="bg-white">-->
+<!--  <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40">-->
+<!--    <div class="mx-auto max-w-4xl divide-y divide-gray-900/10">-->
+<!--      <h2 class="text-2xl font-bold leading-10 tracking-tight text-gray-900">Frequently asked questions</h2>-->
+<!--      <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">-->
+<!--        <div class="pt-6">-->
+<!--          <dt>-->
+<!--            Expand/collapse question button -->
+<!--            <button type="button" class="flex w-full items-start justify-between text-left text-gray-900" aria-controls="faq-0" aria-expanded="false">-->
+<!--              <span class="text-base font-semibold leading-7">Are there any risks with Cost Segregation?</span>-->
+<!--              <span class="ml-6 flex h-7 items-center">-->
+<!---->
+<!--                  Icon when question is collapsed.-->
+
+<!--                  Item expanded: "hidden", Item collapsed: ""-->
+<!--                -->
+<!--                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">-->
+<!--                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />-->
+<!--                </svg>-->
+                <!--
+                  Icon when question is expanded.
+
+                  Item expanded: "", Item collapsed: "hidden"
+                -->
+<!--                <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">-->
+<!--                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />-->
+<!--                </svg>-->
+<!--              </span>-->
+<!--            </button>-->
+<!--          </dt>-->
+<!--          <dd class="mt-2 pr-12" id="faq-0">-->
+<!--            <p class="text-base leading-7 text-gray-600">The risks are TKTKTK.</p>-->
+<!--          </dd>-->
+<!--        </div>-->
+
+<!--       More questions... -->
+
+<!--      </dl>-->
+<!--    </div>-->
+<!--  </div>-->
+</div>
+
+<!--Footer-->
+</footer>
+<%= render 'shared/footer' %>
+</footer>
