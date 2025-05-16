@@ -1,24 +1,49 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <%= metamagic site: ENV['COMPANY_NAME'], title: [:site, :title], separator: " | " %>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+<head>
+  <%= metamagic site: ENV['COMPANY_NAME'], title: [:site, :title], separator: " | " %>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  </head>
+  <!-- ▾▾▾  FACEBOOK DOMAIN VERIFICATION  ▾▾▾ -->
+  <meta name="facebook-domain-verification"
+        content="5keztdrbkjbyfgpegyj5zj851gampw" />
+  <!-- ▴▴▴ ---------------------------------- ▴▴▴ -->
 
-  <body>
-    <main class="container mx-auto mt-14 px-6">
-      <%= render "shared/flash" %>
-      <%= render "shared/header" %>
-      <%= yield %>
-    </main>
+  <!-- ▾▾▾  FACEBOOK PIXEL (main script)  ▾▾▾ -->
+  <script>
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+          s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+      (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init','1833536194097220');
+      fbq('track','PageView');
+  </script>
+  <!-- ▴▴▴ ------------------------------- ▴▴▴ -->
 
-    <%= render partial: "shared/script_tags" %>
-  </body>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<!-- ▾▾▾  PIXEL <noscript> FALLBACK  ▾▾▾ -->
+<noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=1833536194097220&ev=PageView&noscript=1"/>
+</noscript>
+<!-- ▴▴▴ ----------------------------- ▴▴▴ -->
+
+<main class="container mx-auto mt-14 px-6">
+  <%= render "shared/flash" %>
+  <%= render "shared/header" %>
+  <%= yield %>
+</main>
+
+<%= render partial: "shared/script_tags" %>
+</body>
 </html>
