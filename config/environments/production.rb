@@ -49,6 +49,10 @@ Rails.application.configure do
   config.force_ssl = true
   config.action_controller.default_url_options = { protocol: 'https' }
 
+  # NEW — allow both hosts
+  config.hosts << "1245consulting.com"        # naked domain
+  config.hosts << "www.1245consulting.com"    # www sub-domain
+
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
