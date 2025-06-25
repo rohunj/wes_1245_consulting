@@ -3,6 +3,10 @@
 .tf-v1-widget-fullscreen{
   width: calc(100% - 12px) !important;
 }
+#typeform-embed, #typeform-embed iframe{
+  width: 100%;
+  min-height: 500px;
+}
 </style>
 
 <div class="bg-white" style="margin: -40px;">
@@ -17,7 +21,7 @@
       <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">To receive a free estimate of your tax benefits, please complete the brief form below</p>
     </div><figure style="" class="col-span-2 sm:block sm:rounded-2xl mt-5 sm:bg-white sm:shadow-lg sm:ring-1 sm:ring-gray-900/5 xl:col-start-2 xl:row-end-1">
         <div class="sm:p-12 text-xl font-semibold leading-8 tracking-tight text-gray-900">
-          <div data-tf-live="01JYJAX850X2CWFVVM80RY9ZRJ"></div><script src="//embed.typeform.com/next/embed.js"></script>
+          <div id="typeform-embed"></div>
         </div>
         
       </figure>
@@ -32,7 +36,25 @@
     </div>
   </div>
 </div>
-
+<script src="https://embed.typeform.com/next/embed.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    const { refresh, unmount } = window.tf.createWidget('kej5O6dB', {
+      container: document.getElementById("typeform-embed"),
+      opacity: 0, // Background opacity
+        onReady: () => {
+          console.log("Form ready!");
+          // Add your tracking or logic here
+          fbq('trackCustom','FreeEstimateVisited');
+        },
+        onSubmit: () => {
+          console.log("Form submitted!");
+          // Add your tracking or logic here
+          fbq('trackCustom','FreeEstimateSubmitted');
+        },
+    });
+  });
+</script>
 
 <footer>
 <%= render 'shared/footer' %>
