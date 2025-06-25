@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   # static pages
   pages = %w(
-    privacy terms thankyou
+    privacy terms thankyou free_estimate
   )
 
 

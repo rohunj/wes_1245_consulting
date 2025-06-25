@@ -46,12 +46,13 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  # config.force_ssl = true
   config.action_controller.default_url_options = { protocol: 'https' }
 
   # NEW — allow both hosts
   config.hosts << "1245consulting.com"        # naked domain
   config.hosts << "www.1245consulting.com"    # www sub-domain
+  config.hosts << "127.0.0.1"    # www sub-domain
 
 
   # Include generic and useful information about system operation, but avoid logging too much
