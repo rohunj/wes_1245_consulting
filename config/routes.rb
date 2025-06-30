@@ -13,10 +13,8 @@ Rails.application.routes.draw do
 
   # static pages
   pages = %w(
-    privacy terms thankyou free_estimate
+    privacy terms thankyou free_estimate calendly
   )
-
-
 
   pages.each do |page|
     get "/#{page}", to: "pages##{page}", as: "#{page.gsub('-', '_')}"
