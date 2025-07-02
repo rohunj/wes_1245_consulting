@@ -612,6 +612,7 @@
   function onScroll() {
     if (window.scrollY > bannerBottom - 80) {
       header.classList.add('scrolled');
+      header.classList.remove('at-top');
     } else if (window.scrollY < 10) {
       header.classList.add('at-top');
       header.classList.remove('scrolled');
