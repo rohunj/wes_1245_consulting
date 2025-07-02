@@ -13,11 +13,11 @@
     color: #fff;
   }
   #header {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: background 0.3s, box-shadow 0.3s;
+    background: #fff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.06);
   }
   #header.scrolled {
     background: #fff !important;
@@ -44,7 +44,7 @@
 <!--Hero Section-->
 
 <div class="bg-white">
-  <header id="header" class="fixed inset-x-0 top-0 z-50 at-top">
+  <header id="header" class="fixed inset-x-0 top-0 z-50">
     <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
         <a href="/" class="-m-1.5 p-1.5">
