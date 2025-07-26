@@ -6,6 +6,7 @@ class PagesController < ApplicationController
   def thankyou
   end
   def free_estimate
+    Rails.logger.info("Free Estimate Visited")
     FacebookCapiService.send_event(
       event_name: 'FreeEstimateVisited',
       event_id: SecureRandom.uuid,
@@ -27,6 +28,7 @@ class PagesController < ApplicationController
   end
 
   def calendly
+    Rails.logger.info("Calendly Visited")
     FacebookCapiService.send_event(
       event_name: 'CalendlyVisited',
       event_id: SecureRandom.uuid,
