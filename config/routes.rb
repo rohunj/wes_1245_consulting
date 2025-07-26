@@ -10,6 +10,13 @@ Rails.application.routes.draw do
   resources :billing_portal, only: [:create]
   match '/billing_portal' => 'billing_portal#create', via: [:get]
   match '/cancel' => 'billing_portal#destroy', via: [:get]
+  post 'track_calendly', to: 'pages#track_calendly'
+  post 'typeform_webhook', to: 'pages#typeform_webhook'
+  post 'calendly_webhook', to: 'pages#calendly_webhook'
+
+  # Calendly OAuth routes
+  get 'calendly/oauth/authorize', to: 'calendly#authorize'
+  get 'calendly/oauth/callback', to: 'calendly#callback'
 
   # static pages
   pages = %w(

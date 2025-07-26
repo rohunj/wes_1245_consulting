@@ -26,7 +26,12 @@
         
       </figure>
     <div>
-      
+      <%# Add hidden UTM fields for tracking %>
+      <%= hidden_field_tag :utm_source %>
+      <%= hidden_field_tag :utm_medium %>
+      <%= hidden_field_tag :utm_campaign %>
+      <%= hidden_field_tag :utm_term %>
+      <%= hidden_field_tag :utm_content %>
       
       
     </div>
@@ -35,6 +40,37 @@
 </div>
 <script src="https://embed.typeform.com/next/embed.js"></script>
 <script>
+  // Store UTM params from URL to localStorage
+  (function() {
+    var params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    var urlParams = new URLSearchParams(window.location.search);
+    params.forEach(function(param) {
+      var value = urlParams.get(param);
+      if (value) {
+        localStorage.setItem(param, value);
+      }
+    });
+  })();
+  // Populate hidden fields from localStorage
+  document.addEventListener('DOMContentLoaded', function() {
+    var params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    params.forEach(function(param) {
+      var field = document.querySelector('input[name="' + param + '"]');
+      if (field) {
+        field.value = localStorage.getItem(param) || '';
+      }
+    });
+  });
+  // Helper to get UTM params for Pixel
+  function getUTMs() {
+    return {
+      utm_source: localStorage.getItem('utm_source') || '',
+      utm_medium: localStorage.getItem('utm_medium') || '',
+      utm_campaign: localStorage.getItem('utm_campaign') || '',
+      utm_term: localStorage.getItem('utm_term') || '',
+      utm_content: localStorage.getItem('utm_content') || ''
+    };
+  }
   var intervalTF;
   var loaded = false;
   var initStart = () => {
@@ -46,13 +82,20 @@
         window.tf.createWidget('kej5O6dB', {
           container: document.getElementById("typeform-embed"),
           opacity: 0,
+          hidden: {
+            utm_source: localStorage.getItem('utm_source') || '',
+            utm_medium: localStorage.getItem('utm_medium') || '',
+            utm_campaign: localStorage.getItem('utm_campaign') || '',
+            utm_term: localStorage.getItem('utm_term') || '',
+            utm_content: localStorage.getItem('utm_content') || ''
+          },
           onReady: () => {
             console.log("Form ready!");
-            fbq('trackCustom','FreeEstimateVisited');
+            fbq('trackCustom','FreeEstimateVisited', getUTMs());
           },
           onSubmit: () => {
             console.log("Form submitted!");
-            fbq('trackCustom','FreeEstimateSubmitted');
+            fbq('trackCustom','FreeEstimateSubmitted', getUTMs());
           },
         });
     }

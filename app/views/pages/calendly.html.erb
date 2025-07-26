@@ -29,6 +29,31 @@
 <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
 
 <script>
+  // Store UTM params from URL to localStorage
+  (function() {
+    var params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    var urlParams = new URLSearchParams(window.location.search);
+    params.forEach(function(param) {
+      var value = urlParams.get(param);
+      if (value) {
+        localStorage.setItem(param, value);
+      }
+    });
+  })();
+</script>
+<script>
+  // Helper to get UTM params for Pixel
+  function getUTMs() {
+    return {
+      utm_source: localStorage.getItem('utm_source') || '',
+      utm_medium: localStorage.getItem('utm_medium') || '',
+      utm_campaign: localStorage.getItem('utm_campaign') || '',
+      utm_term: localStorage.getItem('utm_term') || '',
+      utm_content: localStorage.getItem('utm_content') || ''
+    };
+  }
+</script>
+<script>
   var intervalCL;
   var loaded = false;
   var initStart = () => {
@@ -37,13 +62,23 @@
     }else{
       if (!window.Calendly) return;
         loaded = true;
+        // Prefill UTM params as custom questions (must match Calendly custom question keys)
+        var utms = {
+          utm_source: localStorage.getItem('utm_source') || '',
+          utm_medium: localStorage.getItem('utm_medium') || '',
+          utm_campaign: localStorage.getItem('utm_campaign') || '',
+          utm_term: localStorage.getItem('utm_term') || '',
+          utm_content: localStorage.getItem('utm_content') || ''
+        };
         Calendly.initInlineWidget({
           "url": 'https://calendly.com/wes1245/cost-seg-chat',
           "parentElement": document.getElementById('calendly-embed'),
-          "prefill": {},
+          "prefill": {
+            customAnswers: utms
+          },
           "utm": {}
         });
-        fbq('trackCustom','CalendlyVisited');
+        fbq('trackCustom','CalendlyVisited', getUTMs());
     }
   }
   var initCalendlyWidget = ()=> {
@@ -57,7 +92,17 @@
     if (e.data && e.data.event && e.data.event.indexOf("calendly.") === 0) {
       console.log('Calendly event',e.data.event);
       if (e.data.event === "calendly.event_scheduled") {
-        fbq('trackCustom','CalendlyScheduled');
+        fbq('trackCustom','CalendlyScheduled', getUTMs());
+        // Send to backend for CAPI
+        var utms = {};
+        ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(param){
+          utms[param] = localStorage.getItem(param) || '';
+        });
+        fetch('/track_calendly', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ utms: utms })
+        });
       }
     }
   });
