@@ -12,11 +12,11 @@ class CalendlyController < ApplicationController
     auth_url = "https://auth.calendly.com/oauth/authorize?" + URI.encode_www_form({
       client_id: CALENDLY_CLIENT_ID,
       response_type: 'code',
-      redirect_uri: CALENDLY_REDIRECT_URI,
-      scope: 'webhook_subscriptions:read webhook_subscriptions:write'
+      redirect_uri: CALENDLY_REDIRECT_URI
     })
     
-    redirect_to auth_url
+    redirect_to auth_url, allow_other_host: true
+
   end
 
   def callback
