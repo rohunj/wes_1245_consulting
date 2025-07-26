@@ -55,6 +55,7 @@ class PagesController < ApplicationController
 
   def typeform_webhook
     payload = request.body.read
+    Rails.logger.info("TypeForm Webhook Payload: #{payload}")
     data = JSON.parse(payload) rescue {}
 
     answers = data.dig('form_response', 'answers') || []
@@ -89,6 +90,7 @@ class PagesController < ApplicationController
 
   def calendly_webhook
     payload = request.body.read
+    Rails.logger.info("Calendly Webhook Payload: #{payload}")
     data = JSON.parse(payload) rescue {}
 
     event_type = data['event']
