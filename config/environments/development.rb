@@ -35,6 +35,10 @@ Rails.application.configure do
 
   # allow requests as dynamic domains, e.g. ngrok.io, ngrok.app
   config.hosts << /[a-z0-9-]+\.ngrok..*/
+  
+  # Allow localhost for development
+  config.hosts << "localhost"
+  config.hosts << "127.0.0.1"
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local

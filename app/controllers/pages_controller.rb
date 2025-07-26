@@ -88,6 +88,18 @@ class PagesController < ApplicationController
     )
 
     head :ok
+    # Return the parsed payload for demo testing
+    # render json: {
+    #   received_payload: data,
+    #   extracted_data: {
+    #     answers: answers,
+    #     hidden: hidden,
+    #     email: email,
+    #     hashed_email: hashed_email,
+    #     user_data: user_data,
+    #     custom_data: custom_data
+    #   }
+    # }
   end
 
   def calendly_webhook
@@ -108,18 +120,15 @@ class PagesController < ApplicationController
       em: hashed_email
     }.compact
 
-    custom_data = {}
-    if invitee && invitee['questions_and_answers']
-      invitee['questions_and_answers'].each do |qa|
-        case qa['question'].downcase
-        when /utm_source/ then custom_data[:utm_source] = qa['answer']
-        when /utm_medium/ then custom_data[:utm_medium] = qa['answer']
-        when /utm_campaign/ then custom_data[:utm_campaign] = qa['answer']
-        when /utm_term/ then custom_data[:utm_term] = qa['answer']
-        when /utm_content/ then custom_data[:utm_content] = qa['answer']
-        end
-      end
-    end
+    # Extract UTM params from tracking object (directly under payload)
+    tracking = data['payload'] && data['payload']['tracking'] || {}
+    custom_data = {
+      utm_source: tracking['utm_source'],
+      utm_medium: tracking['utm_medium'],
+      utm_campaign: tracking['utm_campaign'],
+      utm_term: tracking['utm_term'],
+      utm_content: tracking['utm_content']
+    }.compact
 
     FacebookCapiService.send_event(
       event_name: 'CalendlyScheduled',
@@ -127,8 +136,21 @@ class PagesController < ApplicationController
       user_data: user_data,
       custom_data: custom_data
     )
+    Rails.logger.info("Calendly CAPI sent")
 
     head :ok
+    # Return the parsed payload for demo testing
+    # render json: {
+    #   received_payload: data,
+    #   extracted_data: {
+    #     event_type: event_type,
+    #     email: email,
+    #     name: name,
+    #     hashed_email: hashed_email,
+    #     user_data: user_data,
+    #     custom_data: custom_data
+    #   }
+    # }
   end
 
   private

@@ -62,7 +62,7 @@
     }else{
       if (!window.Calendly) return;
         loaded = true;
-        // Prefill UTM params as custom questions (must match Calendly custom question keys)
+        // Pass UTM params via utm property (cleaner approach)
         var utms = {
           utm_source: localStorage.getItem('utm_source') || '',
           utm_medium: localStorage.getItem('utm_medium') || '',
@@ -73,10 +73,8 @@
         Calendly.initInlineWidget({
           "url": 'https://calendly.com/wes1245/cost-seg-chat',
           "parentElement": document.getElementById('calendly-embed'),
-          "prefill": {
-            customAnswers: utms
-          },
-          "utm": {}
+          "prefill": {},
+          "utm": utms
         });
         fbq('trackCustom','CalendlyVisited', getUTMs());
     }

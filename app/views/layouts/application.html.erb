@@ -19,7 +19,7 @@
           n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
           s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
       (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init','1833536194097220');
+      fbq('init','1833536194097220'<%= raw(", { test_event_code: '#{ENV['FB_TEST_EVENT_CODE']}' }") if ENV['FB_TEST_EVENT_CODE'].present? %>);
       fbq('track','PageView');
   </script>
   <!-- ▴▴▴ ------------------------------- ▴▴▴ -->
