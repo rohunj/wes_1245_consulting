@@ -5,6 +5,19 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-400694003">
 
 </script>
+<script>
+  // Store UTM params from URL to localStorage
+  (function() {
+    var params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    var urlParams = new URLSearchParams(window.location.search);
+    params.forEach(function(param) {
+      var value = urlParams.get(param);
+      if (value) {
+        localStorage.setItem(param, value);
+      }
+    });
+  })();
+</script>
 <style>
   a:hover {
     color: #4f46e5;
