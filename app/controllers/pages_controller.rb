@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   def thankyou
   end
   def free_estimate
-    Rails.logger.info("Free Estimate Visited")
+    # Rails.logger.info("Free Estimate Visited")
     FacebookCapiService.send_event(
       event_name: 'FreeEstimateVisited',
       event_id: SecureRandom.uuid,
@@ -28,7 +28,7 @@ class PagesController < ApplicationController
   end
 
   def calendly
-    Rails.logger.info("Calendly Visited")
+    # Rails.logger.info("Calendly Visited")
     FacebookCapiService.send_event(
       event_name: 'CalendlyVisited',
       event_id: SecureRandom.uuid,
@@ -57,19 +57,28 @@ class PagesController < ApplicationController
 
   def typeform_webhook
     payload = request.body.read
-    Rails.logger.info("TypeForm Webhook Payload: #{payload}")
+    # Rails.logger.info("TypeForm Webhook Payload: #{payload}")
     data = JSON.parse(payload) rescue {}
 
     answers = data.dig('form_response', 'answers') || []
     hidden = data.dig('form_response', 'hidden') || {}
 
-    email = answers.find { |a| a['type'] == 'email' }&.dig('email')
+    # Extract email, first name, and last name from answers using field IDs
+    email = answers.find { |a| a['field']['id'] == 'vOcR9ilRM3VK' }&.dig('email')
+    first_name = answers.find { |a| a['field']['id'] == 'PEHVSljYxZTn' }&.dig('text')
+    last_name = answers.find { |a| a['field']['id'] == 'CitDWWwiuJga' }&.dig('text')
+
+    # Hash PII data for CAPI
     hashed_email = FacebookCapiService.hash_data(email)
+    hashed_first_name = FacebookCapiService.hash_data(first_name)
+    hashed_last_name = FacebookCapiService.hash_data(last_name)
 
     user_data = {
       client_ip_address: request.remote_ip,
       client_user_agent: request.user_agent,
-      em: hashed_email
+      em: hashed_email,
+      fn: hashed_first_name,
+      ln: hashed_last_name
     }.compact
 
     custom_data = {
@@ -95,7 +104,11 @@ class PagesController < ApplicationController
     #     answers: answers,
     #     hidden: hidden,
     #     email: email,
+    #     first_name: first_name,
+    #     last_name: last_name,
     #     hashed_email: hashed_email,
+    #     hashed_first_name: hashed_first_name,
+    #     hashed_last_name: hashed_last_name,
     #     user_data: user_data,
     #     custom_data: custom_data
     #   }
@@ -104,20 +117,25 @@ class PagesController < ApplicationController
 
   def calendly_webhook
     payload = request.body.read
-    Rails.logger.info("Calendly Webhook Payload: #{payload}")
+    # Rails.logger.info("Calendly Webhook Payload: #{payload}")
     data = JSON.parse(payload) rescue {}
 
     event_type = data['event']
     invitee = data['payload'] && data['payload']['invitee']
 
     email = invitee && invitee['email']
-    name = invitee && invitee['name']
+    first_name = invitee && invitee['first_name']
+    last_name = invitee && invitee['last_name']
     hashed_email = FacebookCapiService.hash_data(email)
+    hashed_first_name = FacebookCapiService.hash_data(first_name)
+    hashed_last_name = FacebookCapiService.hash_data(last_name)
 
     user_data = {
       client_ip_address: request.remote_ip,
       client_user_agent: request.user_agent,
-      em: hashed_email
+      em: hashed_email,
+      fn: hashed_first_name,
+      ln: hashed_last_name
     }.compact
 
     # Extract UTM params from tracking object (directly under payload)
@@ -136,7 +154,7 @@ class PagesController < ApplicationController
       user_data: user_data,
       custom_data: custom_data
     )
-    Rails.logger.info("Calendly CAPI sent")
+    # Rails.logger.info("Calendly CAPI sent")
 
     head :ok
     # Return the parsed payload for demo testing

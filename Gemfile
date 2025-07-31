@@ -13,6 +13,7 @@ ruby '3.2.0'
 # gem 'net-imap'
 # gem 'net-pop'
 # gem 'net-smtp'
+gem "sentry-ruby"
 
 gem 'rails'
 # gem 'rails', '~> 7.1.0'

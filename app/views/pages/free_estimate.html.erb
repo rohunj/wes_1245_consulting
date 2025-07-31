@@ -21,24 +21,21 @@
       <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">To receive a free estimate of your tax benefits, please complete the brief form below</p>
     </div><figure style="" class="col-span-2 sm:block sm:rounded-2xl mt-5 sm:bg-white sm:shadow-lg sm:ring-1 sm:ring-gray-900/5 xl:col-start-2 xl:row-end-1">
         <div class="sm:p-12 text-xl font-semibold leading-8 tracking-tight text-gray-900">
-          <div id="typeform-embed"></div>
+          <div id="typeform-embed">
+            <iframe id="typeform-iframe" width="100%" height="500" frameborder="0"></iframe>
+          </div>
         </div>
         
       </figure>
     <div>
-      <%# Add hidden UTM fields for tracking %>
-      <%= hidden_field_tag :utm_source %>
-      <%= hidden_field_tag :utm_medium %>
-      <%= hidden_field_tag :utm_campaign %>
-      <%= hidden_field_tag :utm_term %>
-      <%= hidden_field_tag :utm_content %>
+      
       
       
     </div>
     </div>
   </div>
 </div>
-<script src="https://embed.typeform.com/next/embed.js"></script>
+
 <script>
   // Store UTM params from URL to localStorage
   (function() {
@@ -51,16 +48,7 @@
       }
     });
   })();
-  // Populate hidden fields from localStorage
-  document.addEventListener('DOMContentLoaded', function() {
-    var params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-    params.forEach(function(param) {
-      var field = document.querySelector('input[name="' + param + '"]');
-      if (field) {
-        field.value = localStorage.getItem(param) || '';
-      }
-    });
-  });
+  
   // Helper to get UTM params for Pixel
   function getUTMs() {
     return {
@@ -71,41 +59,39 @@
       utm_content: localStorage.getItem('utm_content') || ''
     };
   }
-  var intervalTF;
-  var loaded = false;
-  var initStart = () => {
-    if(loaded){
-      intervalTF && clearInterval(intervalTF);
-    }else{
-      if (!window.tf || !document.getElementById("typeform-embed")) return;
-        loaded = true;
-        window.tf.createWidget('kej5O6dB', {
-          container: document.getElementById("typeform-embed"),
-          opacity: 0,
-          hidden: {
-            utm_source: localStorage.getItem('utm_source') || '',
-            utm_medium: localStorage.getItem('utm_medium') || '',
-            utm_campaign: localStorage.getItem('utm_campaign') || '',
-            utm_term: localStorage.getItem('utm_term') || '',
-            utm_content: localStorage.getItem('utm_content') || ''
-          },
-          onReady: () => {
-            console.log("Form ready!");
-            fbq('trackCustom','FreeEstimateVisited', getUTMs());
-          },
-          onSubmit: () => {
-            console.log("Form submitted!");
-            fbq('trackCustom','FreeEstimateSubmitted', getUTMs());
-          },
-        });
+  
+  // Build Typeform URL with UTM parameters
+  function buildTypeformUrl() {
+    var baseUrl = 'https://form.typeform.com/to/kej5O6dB';
+    var utmParams = getUTMs();
+    var queryParams = [];
+    
+    // Add UTM parameters to query string
+    Object.keys(utmParams).forEach(function(key) {
+      if (utmParams[key]) {
+        queryParams.push(key + '=' + encodeURIComponent(utmParams[key]));
+      }
+    });
+    
+    // Append query string to base URL
+    if (queryParams.length > 0) {
+      return baseUrl + '?' + queryParams.join('&');
     }
+    
+    return baseUrl;
   }
-  var initTypeformWidget = ()=> {
-    intervalTF = setInterval(initStart, 500);
-  }
-  initTypeformWidget();
+  
+  // Set iframe src and trigger Pixel event when page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    var iframe = document.getElementById('typeform-iframe');
+    if (iframe) {
+      iframe.src = buildTypeformUrl();
+    }
+    
+    // Trigger Facebook Pixel event
+    fbq('trackCustom','FreeEstimateVisited', getUTMs());
+  });
 </script>
-
 
 <%= render 'shared/footer' %>
 <div class="absolute inset-x-0 top-0 -z-10 transform-gpu overflow-hidden blur-3xl sm:top-0" aria-hidden="true">
