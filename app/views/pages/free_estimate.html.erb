@@ -84,7 +84,11 @@
   }
   
   // Set iframe src and trigger Pixel event when page loads
-  document.addEventListener('DOMContentLoaded', function() {
+  function initializeFreeEstimatePage() {
+    // Check if this page has already been initialized
+    if (window.freeEstimateInitialized) return;
+    window.freeEstimateInitialized = true;
+    
     var iframe = document.getElementById('typeform-iframe');
     if (iframe) {
       iframe.src = buildTypeformUrl();
@@ -107,7 +111,16 @@
         fbp: utms.fbp
       })
     });
-  });
+  }
+  
+  // Use requestAnimationFrame to ensure DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      requestAnimationFrame(initializeFreeEstimatePage);
+    });
+  } else {
+    requestAnimationFrame(initializeFreeEstimatePage);
+  }
 </script>
 
 <%= render 'shared/footer' %>

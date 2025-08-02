@@ -77,7 +77,11 @@
   }
   
   // Set Calendly widget URL and trigger Pixel event when page loads
-  document.addEventListener('DOMContentLoaded', function() {
+  function initializeCalendlyPage() {
+    // Check if this page has already been initialized
+    if (window.calendlyInitialized) return;
+    window.calendlyInitialized = true;
+    
     var calendlyWidget = document.getElementById('calendly-inline-widget');
     if (calendlyWidget) {
       calendlyWidget.setAttribute('data-url', buildCalendlyUrl());
@@ -100,7 +104,16 @@
         fbp: utms.fbp
       })
     });
-  });
+  }
+  
+  // Use requestAnimationFrame to ensure DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      requestAnimationFrame(initializeCalendlyPage);
+    });
+  } else {
+    requestAnimationFrame(initializeCalendlyPage);
+  }
 </script>
 
 <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
