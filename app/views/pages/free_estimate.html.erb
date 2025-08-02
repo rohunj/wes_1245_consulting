@@ -56,7 +56,9 @@
       utm_medium: localStorage.getItem('utm_medium') || '',
       utm_campaign: localStorage.getItem('utm_campaign') || '',
       utm_term: localStorage.getItem('utm_term') || '',
-      utm_content: localStorage.getItem('utm_content') || ''
+      utm_content: localStorage.getItem('utm_content') || '',
+      fbc: localStorage.getItem('fbc') || '',
+      fbp: localStorage.getItem('fbp') || ''
     };
   }
   
@@ -90,6 +92,21 @@
     
     // Trigger Facebook Pixel event
     fbq('trackCustom','FreeEstimateVisited', getUTMs());
+    
+    // Send CAPI event via AJAX with fbc and fbp
+    var utms = getUTMs();
+    fetch('/capi/free_estimate_visited', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({
+        utms: utms,
+        fbc: utms.fbc,
+        fbp: utms.fbp
+      })
+    });
   });
 </script>
 

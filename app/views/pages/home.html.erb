@@ -16,6 +16,17 @@
         localStorage.setItem(param, value);
       }
     });
+    
+    // Also capture fbc and fbp parameters
+    var fbc = urlParams.get('fbclid') || urlParams.get('fbc');
+    var fbp = urlParams.get('fbp');
+    
+    if (fbc) {
+      localStorage.setItem('fbc', fbc);
+    }
+    if (fbp) {
+      localStorage.setItem('fbp', fbp);
+    }
   })();
 </script>
 <style>

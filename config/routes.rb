@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   resources :billing_portal, only: [:create]
   match '/billing_portal' => 'billing_portal#create', via: [:get]
   match '/cancel' => 'billing_portal#destroy', via: [:get]
-  post 'track_calendly', to: 'pages#track_calendly'
+  post 'capi/free_estimate_visited', to: 'pages#capi_free_estimate_visited'
+  post 'capi/calendly_visited', to: 'pages#capi_calendly_visited'
   post 'typeform_webhook', to: 'pages#typeform_webhook'
   post 'calendly_webhook', to: 'pages#calendly_webhook'
 

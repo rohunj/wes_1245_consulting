@@ -20,6 +20,27 @@
           s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
       (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
       fbq('init','1833536194097220'<%= raw(", { test_event_code: '#{ENV['FB_TEST_EVENT_CODE']}' }") if ENV['FB_TEST_EVENT_CODE'].present? %>);
+      
+      // Capture fbc and fbp parameters from URL and store in localStorage
+      (function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var fbc = urlParams.get('fbclid') || urlParams.get('fbc');
+        var fbp = urlParams.get('fbp');
+        
+        if (fbc) {
+          localStorage.setItem('fbc', fbc);
+        }
+        if (fbp) {
+          localStorage.setItem('fbp', fbp);
+        }
+        
+        // If no fbp in URL, generate one (Facebook best practice)
+        if (!fbp && !localStorage.getItem('fbp')) {
+          var fbpValue = 'fb.1.' + Date.now() + '.' + Math.random().toString(36).substr(2, 9);
+          localStorage.setItem('fbp', fbpValue);
+        }
+      })();
+      
       fbq('track','PageView');
   </script>
   <!-- ▴▴▴ ------------------------------- ▴▴▴ -->

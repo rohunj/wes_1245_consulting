@@ -6,16 +6,7 @@ class PagesController < ApplicationController
   def thankyou
   end
   def free_estimate
-    # Rails.logger.info("Free Estimate Visited")
-    FacebookCapiService.send_event(
-      event_name: 'FreeEstimateVisited',
-      event_id: SecureRandom.uuid,
-      user_data: {
-        client_ip_address: request.remote_ip,
-        client_user_agent: request.user_agent
-      },
-      custom_data: utm_params
-    )
+    # CAPI event now handled by AJAX call from frontend
   end
   def logout
     sign_out(current_user)
@@ -28,33 +19,10 @@ class PagesController < ApplicationController
   end
 
   def calendly
-    # Rails.logger.info("Calendly Visited")
-    FacebookCapiService.send_event(
-      event_name: 'CalendlyVisited',
-      event_id: SecureRandom.uuid,
-      user_data: {
-        client_ip_address: request.remote_ip,
-        client_user_agent: request.user_agent
-      },
-      custom_data: utm_params
-    )
+    # CAPI event now handled by AJAX call from frontend
   end
 
-  skip_before_action :verify_authenticity_token, only: [:track_calendly, :typeform_webhook, :calendly_webhook]
-  def track_calendly
-    utms = params[:utms] || {}
-    FacebookCapiService.send_event(
-      event_name: 'CalendlyScheduled',
-      event_id: SecureRandom.uuid,
-      user_data: {
-        client_ip_address: request.remote_ip,
-        client_user_agent: request.user_agent
-      },
-      custom_data: utms
-    )
-    head :ok
-  end
-
+  skip_before_action :verify_authenticity_token, only: [:typeform_webhook, :calendly_webhook, :capi_free_estimate_visited, :capi_calendly_visited]
   def typeform_webhook
     payload = request.body.read
     # Rails.logger.info("TypeForm Webhook Payload: #{payload}")
@@ -169,6 +137,54 @@ class PagesController < ApplicationController
     #     custom_data: custom_data
     #   }
     # }
+  end
+
+  def capi_free_estimate_visited
+    utms = params[:utms] || {}
+    fbc = params[:fbc]
+    fbp = params[:fbp]
+    
+    user_data = {
+      client_ip_address: request.remote_ip,
+      client_user_agent: request.user_agent
+    }
+    
+    # Add fbc and fbp to user_data if present
+    user_data[:fbc] = fbc if fbc.present?
+    user_data[:fbp] = fbp if fbp.present?
+    
+    FacebookCapiService.send_event(
+      event_name: 'FreeEstimateVisited',
+      event_id: SecureRandom.uuid,
+      user_data: user_data,
+      custom_data: utms
+    )
+    
+    head :ok
+  end
+  
+  def capi_calendly_visited
+    utms = params[:utms] || {}
+    fbc = params[:fbc]
+    fbp = params[:fbp]
+    
+    user_data = {
+      client_ip_address: request.remote_ip,
+      client_user_agent: request.user_agent
+    }
+    
+    # Add fbc and fbp to user_data if present
+    user_data[:fbc] = fbc if fbc.present?
+    user_data[:fbp] = fbp if fbp.present?
+    
+    FacebookCapiService.send_event(
+      event_name: 'CalendlyVisited',
+      event_id: SecureRandom.uuid,
+      user_data: user_data,
+      custom_data: utms
+    )
+    
+    head :ok
   end
 
   private
