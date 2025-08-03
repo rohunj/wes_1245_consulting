@@ -27,8 +27,9 @@
         var fbc = urlParams.get('fbclid') || urlParams.get('fbc');
         var fbp = urlParams.get('fbp');
         
-        if (fbc) {
-          localStorage.setItem('fbc', fbc);
+        if (fbclid) {
+            var fbcValue = 'fb.1.' + Date.now() + '.' + fbclid;
+            localStorage.setItem('fbc', fbcValue);
         }
         if (fbp) {
           localStorage.setItem('fbp', fbp);
