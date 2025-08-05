@@ -24,7 +24,7 @@
       // Capture fbc and fbp parameters from URL and store in localStorage
       (function() {
         var urlParams = new URLSearchParams(window.location.search);
-        var fbc = urlParams.get('fbclid') || urlParams.get('fbc');
+        var fbclid = urlParams.get('fbclid') || urlParams.get('fbc');
         var fbp = urlParams.get('fbp');
         
         if (fbclid) {
