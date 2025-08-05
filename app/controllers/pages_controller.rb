@@ -2,6 +2,7 @@ class PagesController < ApplicationController
   before_action :authenticate_user!, only: [:logout]
 
   def home
+    # CAPI event now handled by AJAX call from frontend
   end
   def thankyou
   end
@@ -22,7 +23,7 @@ class PagesController < ApplicationController
     # CAPI event now handled by AJAX call from frontend
   end
 
-  skip_before_action :verify_authenticity_token, only: [:typeform_webhook, :calendly_webhook, :capi_free_estimate_visited, :capi_calendly_visited]
+  skip_before_action :verify_authenticity_token, only: [:typeform_webhook, :calendly_webhook, :capi_free_estimate_visited, :capi_calendly_visited, :capi_homepage_visited]
   def typeform_webhook
     payload = request.body.read
     # Rails.logger.info("TypeForm Webhook Payload: #{payload}")
@@ -179,6 +180,30 @@ class PagesController < ApplicationController
     
     FacebookCapiService.send_event(
       event_name: 'CalendlyVisited',
+      event_id: SecureRandom.uuid,
+      user_data: user_data,
+      custom_data: utms
+    )
+    
+    head :ok
+  end
+
+  def capi_homepage_visited
+    utms = params[:utms] || {}
+    fbc = params[:fbc]
+    fbp = params[:fbp]
+    
+    user_data = {
+      client_ip_address: request.remote_ip,
+      client_user_agent: request.user_agent
+    }
+    
+    # Add fbc and fbp to user_data if present
+    user_data[:fbc] = fbc if fbc.present?
+    user_data[:fbp] = fbp if fbp.present?
+    
+    FacebookCapiService.send_event(
+      event_name: 'PageView',
       event_id: SecureRandom.uuid,
       user_data: user_data,
       custom_data: utms

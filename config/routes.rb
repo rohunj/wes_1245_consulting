@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   match '/cancel' => 'billing_portal#destroy', via: [:get]
   post 'capi/free_estimate_visited', to: 'pages#capi_free_estimate_visited'
   post 'capi/calendly_visited', to: 'pages#capi_calendly_visited'
+  post 'capi/homepage_visited', to: 'pages#capi_homepage_visited'
   post 'typeform_webhook', to: 'pages#typeform_webhook'
   post 'calendly_webhook', to: 'pages#calendly_webhook'
 
