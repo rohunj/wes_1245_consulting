@@ -46,11 +46,12 @@
   
   // Send CAPI PageView event when homepage loads
   function sendHomepageCAPI() {
-    // Check if this page has already been initialized
-    if (window.homepageInitialized) return;
-    window.homepageInitialized = true;
-    
     var utms = getUTMs();
+    var eventId = generateEventId('PageView');
+    
+    // Also send Pixel event with same event_id for deduplication
+    fbq('track', 'PageView', utms, {event_id: eventId});
+    
     fetch('/capi/homepage_visited', {
       method: 'POST',
       headers: {
@@ -60,7 +61,8 @@
       body: JSON.stringify({
         utms: utms,
         fbc: utms.fbc,
-        fbp: utms.fbp
+        fbp: utms.fbp,
+        event_id: eventId
       })
     }).catch(function(error) {
       console.log('CAPI request failed:', error);

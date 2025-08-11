@@ -24,12 +24,11 @@
       // Capture fbc and fbp parameters from URL and store in localStorage
       (function() {
         var urlParams = new URLSearchParams(window.location.search);
-        var fbclid = urlParams.get('fbclid') || urlParams.get('fbc');
+        var fbc = urlParams.get('fbclid') || urlParams.get('fbc');
         var fbp = urlParams.get('fbp');
         
-        if (fbclid) {
-            var fbcValue = 'fb.1.' + Date.now() + '.' + fbclid;
-            localStorage.setItem('fbc', fbcValue);
+        if (fbc) {
+            localStorage.setItem('fbc', fbc);
         }
         if (fbp) {
           localStorage.setItem('fbp', fbp);
@@ -41,8 +40,16 @@
           localStorage.setItem('fbp', fbpValue);
         }
       })();
-      
-      fbq('track','PageView');
+
+      // Generate unique event ID for Pixel+CAPI deduplication
+      function generateEventId(eventName) {
+        // Create unique ID for each event (not date-based)
+        var timestamp = Date.now();
+        var random = Math.random().toString(36).substr(2, 9);
+        return eventName + '_' + timestamp + '_' + random;
+      }
+
+      // PageView event is now handled in individual pages with deduplication
   </script>
   <!-- ▴▴▴ ------------------------------- ▴▴▴ -->
 

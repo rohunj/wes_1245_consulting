@@ -176,6 +176,7 @@ class PagesController < ApplicationController
     utms = params[:utms] || {}
     fbc = params[:fbc]
     fbp = params[:fbp]
+    event_id = params[:event_id]
     
     user_data = {
       client_ip_address: request.remote_ip,
@@ -188,7 +189,7 @@ class PagesController < ApplicationController
     
     FacebookCapiService.send_event(
       event_name: 'FreeEstimateVisited',
-      event_id: SecureRandom.uuid,
+      event_id: event_id || SecureRandom.uuid,
       user_data: user_data,
       custom_data: utms
     )
@@ -200,6 +201,7 @@ class PagesController < ApplicationController
     utms = params[:utms] || {}
     fbc = params[:fbc]
     fbp = params[:fbp]
+    event_id = params[:event_id]
     
     user_data = {
       client_ip_address: request.remote_ip,
@@ -212,7 +214,7 @@ class PagesController < ApplicationController
     
     FacebookCapiService.send_event(
       event_name: 'CalendlyVisited',
-      event_id: SecureRandom.uuid,
+      event_id: event_id || SecureRandom.uuid,
       user_data: user_data,
       custom_data: utms
     )
@@ -224,6 +226,7 @@ class PagesController < ApplicationController
     utms = params[:utms] || {}
     fbc = params[:fbc]
     fbp = params[:fbp]
+    event_id = params[:event_id]
     
     user_data = {
       client_ip_address: request.remote_ip,
@@ -236,7 +239,7 @@ class PagesController < ApplicationController
     
     FacebookCapiService.send_event(
       event_name: 'PageView',
-      event_id: SecureRandom.uuid,
+      event_id: event_id || SecureRandom.uuid,
       user_data: user_data,
       custom_data: utms
     )
