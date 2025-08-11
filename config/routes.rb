@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   # Calendly OAuth routes
   get 'calendly/oauth/authorize', to: 'calendly#authorize'
   get 'calendly/oauth/callback', to: 'calendly#callback'
+  # Calendly Webhook Management routes
   get 'calendly/subscriptions', to: 'calendly#list_subscriptions'
   get 'calendly/create_subscription', to: 'calendly#create_manual_subscription'
   get 'calendly/access_token', to: 'calendly#get_access_token'

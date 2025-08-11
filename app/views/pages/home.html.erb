@@ -46,6 +46,10 @@
   
   // Send CAPI PageView event when homepage loads
   function sendHomepageCAPI() {
+    // Check if this page has already been initialized
+    if (window.homepageInitialized) return;
+    window.homepageInitialized = true;
+    
     var utms = getUTMs();
     var eventId = generateEventId('PageView');
     
