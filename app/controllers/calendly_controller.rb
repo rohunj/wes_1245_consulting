@@ -68,6 +68,67 @@ class CalendlyController < ApplicationController
     end
   end
 
+  def create_manual_subscription
+    access_token = session[:calendly_access_token]
+    user_uri = params[:user_uri]
+    
+    if access_token.blank?
+      render json: {
+        success: false,
+        error: "No Calendly access token found. Please authorize first."
+      }, status: :unauthorized
+      return
+    end
+    
+    if user_uri.blank?
+      render json: {
+        success: false,
+        error: "User URI is required. Please provide the user URI from your Calendly dashboard."
+      }, status: :bad_request
+      return
+    end
+    
+    begin
+      success = create_webhook_subscription_with_uri(access_token, user_uri)
+      
+      if success
+        render json: {
+          success: true,
+          message: "Webhook subscription created successfully with provided user URI"
+        }
+      else
+        render json: {
+          success: false,
+          error: "Failed to create webhook subscription"
+        }, status: :internal_server_error
+      end
+    rescue => e
+      render json: {
+        success: false,
+        error: e.message
+      }, status: :internal_server_error
+    end
+  end
+
+  def get_access_token
+    access_token = session[:calendly_access_token]
+    
+    if access_token.present?
+      render json: {
+        success: true,
+        has_token: true,
+        access_token: access_token,
+        token_length: access_token.length
+      }
+    else
+      render json: {
+        success: true,
+        has_token: false,
+        message: "No Calendly access token found in session"
+      }
+    end
+  end
+
   private
 
   def exchange_code_for_token(code)
@@ -91,17 +152,18 @@ class CalendlyController < ApplicationController
   end
 
   def create_webhook_subscription(access_token)
-    # First, get the user's organization URI
     user_uri = get_user_organization_uri(access_token)
     
-    return unless user_uri
+    Rails.logger.info("User URI: #{user_uri}")
     
-    # Create webhook subscription
+    if user_uri.blank?
+      Rails.logger.error("Failed to get user URI from Calendly API")
+      return false
+    end
+
     uri = URI('https://api.calendly.com/webhook_subscriptions')
-    
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
-    
     request = Net::HTTP::Post.new(uri)
     request['Authorization'] = "Bearer #{access_token}"
     request['Content-Type'] = 'application/json'
@@ -113,15 +175,48 @@ class CalendlyController < ApplicationController
       scope: 'user'
     }
     
+    Rails.logger.info("Webhook payload: #{payload.to_json}")
     request.body = payload.to_json
     
     response = http.request(request)
-    Rails.logger.info("Webhook creation response: #{response.body}")
+    Rails.logger.info("Webhook creation response: #{response.code} - #{response.body}")
     
     if response.code == '201'
       Rails.logger.info("Webhook subscription created successfully")
+      return true
     else
       Rails.logger.error("Failed to create webhook subscription: #{response.body}")
+      return false
+    end
+  end
+
+  def create_webhook_subscription_with_uri(access_token, user_uri)
+    uri = URI('https://api.calendly.com/webhook_subscriptions')
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    request = Net::HTTP::Post.new(uri)
+    request['Authorization'] = "Bearer #{access_token}"
+    request['Content-Type'] = 'application/json'
+    
+    payload = {
+      url: 'https://1245consulting.com/calendly_webhook',
+      events: ['invitee.created'],
+      organization: user_uri,
+      scope: 'user'
+    }
+    
+    Rails.logger.info("Webhook payload: #{payload.to_json}")
+    request.body = payload.to_json
+    
+    response = http.request(request)
+    Rails.logger.info("Webhook creation response: #{response.code} - #{response.body}")
+    
+    if response.code == '201'
+      Rails.logger.info("Webhook subscription created successfully")
+      return true
+    else
+      Rails.logger.error("Failed to create webhook subscription: #{response.body}")
+      return false
     end
   end
 
