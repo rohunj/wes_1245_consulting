@@ -5,7 +5,8 @@ require 'json'
 class CalendlyController < ApplicationController
   CALENDLY_CLIENT_ID = ENV['CALENDLY_CLIENT_ID']
   CALENDLY_CLIENT_SECRET = ENV['CALENDLY_CLIENT_SECRET']
-  CALENDLY_REDIRECT_URI = 'https://www.1245consulting.com/calendly/oauth/callback'
+  CALENDLY_REDIRECT_URI = 'https://1245consulting.com/calendly/oauth/callback'
+  DEFAULT_ORGANIZATION_URI = 'https://api.calendly.com/organizations/8aafd945-5b43-4691-9856-0e1552ae05e4'
 
   def authorize
     # Generate OAuth authorization URL
@@ -46,13 +47,17 @@ class CalendlyController < ApplicationController
 
   def list_subscriptions
     access_token = session[:calendly_access_token]
+    scope = params[:scope] || 'organization'
+    organization = params[:organization] || DEFAULT_ORGANIZATION_URI
     
     if access_token.present?
       begin
-        subscriptions = get_webhook_subscriptions(access_token)
+        subscriptions = get_webhook_subscriptions(access_token, scope, organization)
         render json: {
           success: true,
-          subscriptions: subscriptions
+          subscriptions: subscriptions,
+          scope: scope,
+          organization: organization
         }
       rescue => e
         render json: {
@@ -80,21 +85,17 @@ class CalendlyController < ApplicationController
       return
     end
     
-    if user_uri.blank?
-      render json: {
-        success: false,
-        error: "User URI is required. Please provide the user URI from your Calendly dashboard."
-      }, status: :bad_request
-      return
-    end
+    # Use default organization URI instead of user_uri
+    organization_uri = DEFAULT_ORGANIZATION_URI
     
     begin
-      success = create_webhook_subscription_with_uri(access_token, user_uri)
+      success = create_webhook_subscription_with_uri(access_token, organization_uri)
       
       if success
         render json: {
           success: true,
-          message: "Webhook subscription created successfully with provided user URI"
+          message: "Webhook subscription created successfully",
+          organization_uri: organization_uri
         }
       else
         render json: {
@@ -126,6 +127,49 @@ class CalendlyController < ApplicationController
         has_token: false,
         message: "No Calendly access token found in session"
       }
+    end
+  end
+
+  def delete_subscription
+    access_token = session[:calendly_access_token]
+    subscription_uri = params[:subscription_uri]
+    
+    if access_token.blank?
+      render json: {
+        success: false,
+        error: "No Calendly access token found. Please authorize first."
+      }, status: :unauthorized
+      return
+    end
+    
+    if subscription_uri.blank?
+      render json: {
+        success: false,
+        error: "Subscription URI is required. Please provide the subscription URI to delete."
+      }, status: :bad_request
+      return
+    end
+    
+    begin
+      success = delete_webhook_subscription(access_token, subscription_uri)
+      
+      if success
+        render json: {
+          success: true,
+          message: "Webhook subscription deleted successfully",
+          subscription_uri: subscription_uri
+        }
+      else
+        render json: {
+          success: false,
+          error: "Failed to delete webhook subscription"
+        }, status: :internal_server_error
+      end
+    rescue => e
+      render json: {
+        success: false,
+        error: e.message
+      }, status: :internal_server_error
     end
   end
 
@@ -171,8 +215,8 @@ class CalendlyController < ApplicationController
     payload = {
       url: 'https://1245consulting.com/calendly_webhook',
       events: ['invitee.created'],
-      organization: user_uri,
-      scope: 'user'
+      organization: DEFAULT_ORGANIZATION_URI,
+      scope: 'organization'
     }
     
     Rails.logger.info("Webhook payload: #{payload.to_json}")
@@ -201,8 +245,8 @@ class CalendlyController < ApplicationController
     payload = {
       url: 'https://1245consulting.com/calendly_webhook',
       events: ['invitee.created'],
-      organization: user_uri,
-      scope: 'user'
+      organization: DEFAULT_ORGANIZATION_URI,
+      scope: 'organization'
     }
     
     Rails.logger.info("Webhook payload: #{payload.to_json}")
@@ -220,6 +264,26 @@ class CalendlyController < ApplicationController
     end
   end
 
+  def delete_webhook_subscription(access_token, subscription_uri)
+    uri = URI(subscription_uri)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    request = Net::HTTP::Delete.new(uri)
+    request['Authorization'] = "Bearer #{access_token}"
+    request['Content-Type'] = 'application/json'
+    
+    response = http.request(request)
+    Rails.logger.info("Webhook deletion response: #{response.code} - #{response.body}")
+    
+    if response.code == '204'
+      Rails.logger.info("Webhook subscription deleted successfully")
+      return true
+    else
+      Rails.logger.error("Failed to delete webhook subscription: #{response.body}")
+      return false
+    end
+  end
+
   def get_user_organization_uri(access_token)
     uri = URI('https://api.calendly.com/users/me')
     http = Net::HTTP.new(uri.host, uri.port)
@@ -231,12 +295,20 @@ class CalendlyController < ApplicationController
     data.dig('resource', 'uri')
   end
 
-  def get_webhook_subscriptions(access_token)
+  def get_webhook_subscriptions(access_token, scope = 'organization', organization = nil)
     uri = URI('https://api.calendly.com/webhook_subscriptions')
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     request = Net::HTTP::Get.new(uri)
     request['Authorization'] = "Bearer #{access_token}"
+    request['Content-Type'] = 'application/json'
+    
+    params = {}
+    params['scope'] = scope if scope
+    params['organization'] = organization if organization
+    
+    uri.query = URI.encode_www_form(params) unless params.empty?
+
     response = http.request(request)
     
     if response.code == '200'

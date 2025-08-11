@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get 'calendly/subscriptions', to: 'calendly#list_subscriptions'
   get 'calendly/create_subscription', to: 'calendly#create_manual_subscription'
   get 'calendly/access_token', to: 'calendly#get_access_token'
+  get 'calendly/delete_subscription', to: 'calendly#delete_subscription'
 
   # static pages
   pages = %w(
