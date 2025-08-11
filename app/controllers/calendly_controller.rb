@@ -44,6 +44,30 @@ class CalendlyController < ApplicationController
     redirect_to root_path
   end
 
+  def list_subscriptions
+    access_token = session[:calendly_access_token]
+    
+    if access_token.present?
+      begin
+        subscriptions = get_webhook_subscriptions(access_token)
+        render json: {
+          success: true,
+          subscriptions: subscriptions
+        }
+      rescue => e
+        render json: {
+          success: false,
+          error: e.message
+        }, status: :internal_server_error
+      end
+    else
+      render json: {
+        success: false,
+        error: "No Calendly access token found. Please authorize first."
+      }, status: :unauthorized
+    end
+  end
+
   private
 
   def exchange_code_for_token(code)
@@ -103,16 +127,29 @@ class CalendlyController < ApplicationController
 
   def get_user_organization_uri(access_token)
     uri = URI('https://api.calendly.com/users/me')
-    
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
-    
     request = Net::HTTP::Get.new(uri)
     request['Authorization'] = "Bearer #{access_token}"
-    
     response = http.request(request)
     data = JSON.parse(response.body)
-    
     data.dig('resource', 'uri')
+  end
+
+  def get_webhook_subscriptions(access_token)
+    uri = URI('https://api.calendly.com/webhook_subscriptions')
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    request = Net::HTTP::Get.new(uri)
+    request['Authorization'] = "Bearer #{access_token}"
+    response = http.request(request)
+    
+    if response.code == '200'
+      data = JSON.parse(response.body)
+      data['data'] || []
+    else
+      Rails.logger.error("Failed to get webhook subscriptions: #{response.code} - #{response.body}")
+      []
+    end
   end
 end 

@@ -1,21 +1,23 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.0'
-# ruby '3.4.4'
+# ruby '3.2.0'
+ruby '3.4.4'
 
 # Required for Ruby 3.1+ compatibility
-# gem 'base64'
-# gem 'csv'
-# gem 'bigdecimal'
-# gem 'mutex_m'
-# gem 'drb'
-# gem 'net-imap'
-# gem 'net-pop'
-# gem 'net-smtp'
+gem 'base64'
+gem 'csv'
+gem 'bigdecimal'
+gem 'mutex_m'
+gem 'drb'
+gem 'net-imap'
+gem 'net-pop'
+gem 'net-smtp'
 
-gem 'rails'
-# gem 'rails', '~> 7.1.0'
+gem "sentry-ruby"
+
+# gem 'rails'
+gem 'rails', '~> 7.1.0'
 gem 'sprockets-rails'
 gem 'pg'
 gem 'puma', '~> 5.6'

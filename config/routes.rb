@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   # Calendly OAuth routes
   get 'calendly/oauth/authorize', to: 'calendly#authorize'
   get 'calendly/oauth/callback', to: 'calendly#callback'
+  get 'calendly/subscriptions', to: 'calendly#list_subscriptions'
 
   # static pages
   pages = %w(
