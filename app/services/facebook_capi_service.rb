@@ -35,7 +35,15 @@ class FacebookCapiService
     response = http.request(request)
     
     # Log to external HTTP service
-    HttpLoggerService.facebook_capi_event(
+    # HttpLoggerService.facebook_capi_event(
+    #   event_name: event_name,
+    #   event_id: event_id,
+    #   user_data: user_data,
+    #   custom_data: custom_data
+    # )
+
+    # Log to Google Sheets
+    GoogleSheetsLoggerService.log_capi_event(
       event_name: event_name,
       event_id: event_id,
       user_data: user_data,

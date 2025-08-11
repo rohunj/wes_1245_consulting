@@ -65,6 +65,22 @@ class PagesController < ApplicationController
       custom_data: custom_data
     )
 
+    # Log webhook to Google Sheets
+    # GoogleSheetsLoggerService.log_webhook_event(
+    #   service: 'Typeform',
+    #   payload: payload,
+    #   extracted_data: {
+    #     email: email,
+    #     first_name: first_name,
+    #     last_name: last_name,
+    #     utm_source: hidden['utm_source'],
+    #     utm_medium: hidden['utm_medium'],
+    #     utm_campaign: hidden['utm_campaign'],
+    #     utm_term: hidden['utm_term'],
+    #     utm_content: hidden['utm_content']
+    #   }
+    # )
+
     head :ok
     # Return the parsed payload for demo testing
     # render json: {
@@ -124,6 +140,22 @@ class PagesController < ApplicationController
       custom_data: custom_data
     )
     # Rails.logger.info("Calendly CAPI sent")
+
+    # Log webhook to Google Sheets
+    # GoogleSheetsLoggerService.log_webhook_event(
+    #   service: 'Calendly',
+    #   payload: payload,
+    #   extracted_data: {
+    #     email: email,
+    #     first_name: first_name,
+    #     last_name: last_name,
+    #     utm_source: tracking['utm_source'],
+    #     utm_medium: tracking['utm_medium'],
+    #     utm_campaign: tracking['utm_campaign'],
+    #     utm_term: tracking['utm_term'],
+    #     utm_content: tracking['utm_content']
+    #   }
+    # )
 
     head :ok
     # Return the parsed payload for demo testing

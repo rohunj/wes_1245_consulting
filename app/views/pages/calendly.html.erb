@@ -20,6 +20,12 @@
         <figure class="col-span-2 sm:block sm:rounded-2xl mt-5 sm:bg-white sm:shadow-lg sm:ring-1 sm:ring-gray-900/5 xl:col-start-2 xl:row-end-1">
           <div class="sm:p-12 text-xl font-semibold leading-8 tracking-tight text-gray-900">
             <div id="calendly-embed">
+              <div id="calendly-preloader" class="flex items-center justify-center h-96">
+                <div class="text-center">
+                  <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+                  <p class="text-gray-600">Loading. Please wait...</p>
+                </div>
+              </div>
               <div id="calendly-inline-widget" class="calendly-inline-widget"></div>
             </div>
           </div>
@@ -123,7 +129,44 @@
     var script = document.createElement('script');
     script.src = 'https://assets.calendly.com/assets/external/widget.js';
     script.async = true;
+    script.onload = function() {
+      // Wait for Calendly to be ready
+      var checkCalendlyReady = function() {
+        if (typeof Calendly !== 'undefined') {
+          // Initialize the widget
+          Calendly.initInlineWidget({
+            url: buildCalendlyUrl(),
+            parentElement: document.getElementById('calendly-inline-widget')
+          });
+          
+          // Listen for Calendly ready event
+          window.addEventListener('message', function(e) {
+            if (e.data && e.data.event && e.data.event.indexOf('calendly') === 0) {
+              // Calendly widget is ready, hide preloader
+              hideCalendlyPreloader();
+            }
+          });
+          
+          // Fallback: hide preloader after 5 seconds if no event is received
+          setTimeout(hideCalendlyPreloader, 5000);
+        } else {
+          // Check again in 100ms
+          setTimeout(checkCalendlyReady, 100);
+        }
+      };
+      checkCalendlyReady();
+    };
     document.head.appendChild(script);
+  }
+  
+  // Hide preloader when Calendly widget is ready
+  function hideCalendlyPreloader() {
+    var preloader = document.getElementById('calendly-preloader');
+    var widget = document.getElementById('calendly-inline-widget');
+    if (preloader && widget) {
+      preloader.style.display = 'none';
+      widget.style.display = 'block';
+    }
   }
   
   if (document.readyState === 'loading') {
