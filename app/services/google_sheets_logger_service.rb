@@ -8,7 +8,8 @@ class GoogleSheetsLoggerService
   # Configure your Google Sheets settings here
   SPREADSHEET_ID = ENV['GOOGLE_SHEETS_SPREADSHEET_ID']
   SERVICE_ACCOUNT_JSON_BASE64 = ENV['GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64']
-  SHEET_NAME = ENV['GOOGLE_SHEETS_SHEET_NAME'] || 'Events' # Default to Sheet1
+  SHEET_NAME = ENV['GOOGLE_SHEETS_SHEET_NAME'] || 'Events' # Default to Events
+  WEBHOOK_SHEET_NAME = ENV['GOOGLE_SHEETS_WEBHOOK_SHEET_NAME'] || 'Webhooks' # Default to Webhooks
 
   def self.log_capi_event(event_name:, event_id:, user_data:, custom_data: {})
     return unless SPREADSHEET_ID.present? && SERVICE_ACCOUNT_JSON_BASE64.present?
@@ -54,21 +55,13 @@ class GoogleSheetsLoggerService
         Time.current.iso8601,           # Timestamp
         'WEBHOOK_EVENT',                # Event Type
         service,                        # Service (Typeform/Calendly)
-        extracted_data[:email],         # Email
-        extracted_data[:first_name],    # First Name
-        extracted_data[:last_name],     # Last Name
-        extracted_data[:utm_source],    # UTM Source
-        extracted_data[:utm_medium],    # UTM Medium
-        extracted_data[:utm_campaign],  # UTM Campaign
-        extracted_data[:utm_term],      # UTM Term
-        extracted_data[:utm_content],   # UTM Content
-        payload.length,                 # Payload Size
+        payload,                        # Payload
         Rails.env,                      # Environment
         '1245_consulting'               # Service Name
       ]
 
-      # Append row to Google Sheet
-      append_to_sheet(row_data)
+      # Append row to Google Sheet (webhook sheet)
+      append_to_webhook_sheet(row_data)
 
       Rails.logger.info("Webhook event logged to Google Sheets: #{service}")
     rescue => e
@@ -88,6 +81,48 @@ class GoogleSheetsLoggerService
     Rails.logger.info("Google Sheets API URL: #{uri}")
     Rails.logger.info("Spreadsheet ID: #{SPREADSHEET_ID}")
     Rails.logger.info("Sheet Name: #{SHEET_NAME}")
+    
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.open_timeout = 10
+    http.read_timeout = 10
+
+    request = Net::HTTP::Post.new(uri.path + '?' + uri.query, {
+      'Content-Type' => 'application/json',
+      'Authorization' => "Bearer #{access_token}",
+      'User-Agent' => '1245-Consulting-Sheets-Logger/1.0'
+    })
+
+    # Prepare the request body
+    request_body = {
+      values: [values]
+    }
+    request.body = request_body.to_json
+
+    Rails.logger.info("Request body: #{request_body.to_json}")
+
+    response = http.request(request)
+
+    Rails.logger.info("Response code: #{response.code}")
+    Rails.logger.info("Response body: #{response.body}")
+
+    if response.code != '200'
+      Rails.logger.error("Google Sheets API error: #{response.code} - #{response.body}")
+    end
+
+    response
+  end
+
+  def self.append_to_webhook_sheet(values)
+    # Get access token using service account
+    access_token = get_access_token
+    
+    # Google Sheets API v4 endpoint for appending values
+    uri = URI("https://sheets.googleapis.com/v4/spreadsheets/#{SPREADSHEET_ID}/values/#{WEBHOOK_SHEET_NAME}!A:Z:append?valueInputOption=RAW")
+    
+    Rails.logger.info("Google Sheets API URL: #{uri}")
+    Rails.logger.info("Spreadsheet ID: #{SPREADSHEET_ID}")
+    Rails.logger.info("Webhook Sheet Name: #{WEBHOOK_SHEET_NAME}")
     
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
