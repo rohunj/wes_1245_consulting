@@ -132,7 +132,7 @@ class CalendlyController < ApplicationController
 
   def delete_subscription
     access_token = session[:calendly_access_token]
-    subscription_uri = params[:subscription_uri]
+    webhook_uuid = params[:webhook_uuid]
     
     if access_token.blank?
       render json: {
@@ -142,22 +142,22 @@ class CalendlyController < ApplicationController
       return
     end
     
-    if subscription_uri.blank?
+    if webhook_uuid.blank?
       render json: {
         success: false,
-        error: "Subscription URI is required. Please provide the subscription URI to delete."
+        error: "Webhook UUID is required. Please provide the webhook UUID to delete."
       }, status: :bad_request
       return
     end
     
     begin
-      success = delete_webhook_subscription(access_token, subscription_uri)
+      success = delete_webhook_subscription(access_token, webhook_uuid)
       
       if success
         render json: {
           success: true,
           message: "Webhook subscription deleted successfully",
-          subscription_uri: subscription_uri
+          webhook_uuid: webhook_uuid
         }
       else
         render json: {
@@ -264,8 +264,8 @@ class CalendlyController < ApplicationController
     end
   end
 
-  def delete_webhook_subscription(access_token, subscription_uri)
-    uri = URI(subscription_uri)
+  def delete_webhook_subscription(access_token, webhook_uuid)
+    uri = URI("https://api.calendly.com/webhook_subscriptions/#{webhook_uuid}")
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     request = Net::HTTP::Delete.new(uri)
