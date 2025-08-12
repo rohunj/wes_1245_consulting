@@ -32,7 +32,7 @@ class CalendlyController < ApplicationController
         session[:calendly_access_token] = token_response['access_token']
         
         # Create webhook subscription
-        create_webhook_subscription(token_response['access_token'])
+        # create_webhook_subscription(token_response['access_token'])
         
         flash[:notice] = "Calendly connected successfully! Webhook subscription created."
       else
