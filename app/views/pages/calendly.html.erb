@@ -182,8 +182,33 @@
   // Listen for Calendly events
   window.addEventListener("message", function(e) {
     if (e.data && e.data.event === "calendly.event_scheduled") {
-      // Trigger Facebook Pixel event only (CAPI handled by webhook)
-      fbq('trackCustom','CalendlyScheduled', getUTMs());
+      // Extract first_name, last_name and email from event payload
+      const { first_name, last_name, email } = e.data.payload?.invitee || {};
+      
+      // Trigger Facebook Pixel event
+      var eventId = generateEventId('CalendlyScheduled');
+      fbq('trackCustom','CalendlyScheduled', getUTMs(), {event_id: eventId});
+      
+      // Send CAPI event via AJAX with fbc and fbp
+      var utms = getUTMs();
+      fetch('/capi/calendly_scheduled', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+          utms: utms,
+          fbc: utms.fbc,
+          fbp: utms.fbp,
+          event_id: eventId,
+          first_name: first_name,
+          last_name: last_name,
+          email: email
+        })
+      }).catch(function(error) {
+        console.log('CAPI request failed:', error);
+      });
     }
   });
 </script>

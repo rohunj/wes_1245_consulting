@@ -13,17 +13,21 @@ Rails.application.routes.draw do
   post 'capi/free_estimate_visited', to: 'pages#capi_free_estimate_visited'
   post 'capi/calendly_visited', to: 'pages#capi_calendly_visited'
   post 'capi/homepage_visited', to: 'pages#capi_homepage_visited'
+  post 'capi/calendly_scheduled', to: 'pages#capi_calendly_scheduled'
   post 'typeform_webhook', to: 'pages#typeform_webhook'
   post 'calendly_webhook', to: 'pages#calendly_webhook'
-
-  # Calendly OAuth routes
-  get 'calendly/oauth/authorize', to: 'calendly#authorize'
-  get 'calendly/oauth/callback', to: 'calendly#callback'
-  # Calendly Webhook Management routes
-  get 'calendly/subscriptions', to: 'calendly#list_subscriptions'
-  get 'calendly/create_subscription', to: 'calendly#create_manual_subscription'
-  get 'calendly/access_token', to: 'calendly#get_access_token'
-  get 'calendly/delete_subscription', to: 'calendly#delete_subscription'
+  
+  # (development only)
+  if Rails.env.development?
+    # Calendly OAuth routes
+    get 'calendly/oauth/authorize', to: 'calendly#authorize'
+    get 'calendly/oauth/callback', to: 'calendly#callback'
+    # Calendly Webhook Management routes 
+    get 'calendly/subscriptions', to: 'calendly#list_subscriptions'
+    get 'calendly/create_subscription', to: 'calendly#create_manual_subscription'
+    get 'calendly/access_token', to: 'calendly#get_access_token'
+    get 'calendly/delete_subscription', to: 'calendly#delete_subscription'
+  end
 
   # static pages
   pages = %w(

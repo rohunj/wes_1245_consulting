@@ -23,7 +23,7 @@ class PagesController < ApplicationController
     # CAPI event now handled by AJAX call from frontend
   end
 
-  skip_before_action :verify_authenticity_token, only: [:typeform_webhook, :calendly_webhook, :capi_free_estimate_visited, :capi_calendly_visited, :capi_homepage_visited]
+  skip_before_action :verify_authenticity_token, only: [:typeform_webhook, :calendly_webhook, :capi_free_estimate_visited, :capi_calendly_visited, :capi_homepage_visited, :capi_calendly_scheduled]
   def typeform_webhook
     payload = request.body.read
     # Rails.logger.info("TypeForm Webhook Payload: #{payload}")
@@ -239,6 +239,45 @@ class PagesController < ApplicationController
     
     FacebookCapiService.send_event(
       event_name: 'PageView',
+      event_id: event_id || SecureRandom.uuid,
+      user_data: user_data,
+      custom_data: utms
+    )
+    
+    head :ok
+  end
+
+  def capi_calendly_scheduled
+    utms = params[:utms] || {}
+    fbc = params[:fbc]
+    fbp = params[:fbp]
+    event_id = params[:event_id]
+    first_name = params[:first_name]
+    last_name = params[:last_name]
+    email = params[:email]
+    
+    user_data = {
+      client_ip_address: request.remote_ip,
+      client_user_agent: request.user_agent
+    }
+    
+    # Add fbc and fbp to user_data if present
+    user_data[:fbc] = fbc if fbc.present?
+    user_data[:fbp] = fbp if fbp.present?
+    
+    # Add hashed PII if available
+    if email.present?
+      user_data[:em] = FacebookCapiService.hash_data(email)
+    end
+    if first_name.present?
+      user_data[:fn] = FacebookCapiService.hash_data(first_name)
+    end
+    if last_name.present?
+      user_data[:ln] = FacebookCapiService.hash_data(last_name)
+    end
+    
+    FacebookCapiService.send_event(
+      event_name: 'CalendlyScheduled',
       event_id: event_id || SecureRandom.uuid,
       user_data: user_data,
       custom_data: utms
