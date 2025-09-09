@@ -31,6 +31,7 @@ class PagesController < ApplicationController
 
     answers = data.dig('form_response', 'answers') || []
     hidden = data.dig('form_response', 'hidden') || {}
+    response_id = data.dig('form_response', 'token') || SecureRandom.uuid
 
     # Extract email, first name, and last name from answers using field IDs
     email = answers.find { |a| a['field']['id'] == 'vOcR9ilRM3VK' }&.dig('email')
@@ -60,7 +61,7 @@ class PagesController < ApplicationController
 
     FacebookCapiService.send_event(
       event_name: 'FreeEstimateSubmitted',
-      event_id: SecureRandom.uuid,
+      event_id: response_id,
       user_data: user_data,
       custom_data: custom_data
     )
