@@ -151,6 +151,7 @@
       // Typeform was submitted, trigger Facebook Pixel event
       var eventId = generateEventId('FreeEstimateSubmitted');
       fbq('trackCustom','FreeEstimateSubmitted', getUTMs(), {event_id: eventId});
+      console.log('Typeform submitted... Facebook Pixel event sent:', eventId);
     }
   });
 </script>
