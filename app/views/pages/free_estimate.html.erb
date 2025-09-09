@@ -146,12 +146,10 @@
   
   // Listen for Typeform submission events
   window.addEventListener('message', function(e) {
-    console.log('New message event received:', e.data);
     if (e.data && e.data.type === 'form-submit') {
       // Typeform was submitted, trigger Facebook Pixel event
       var eventId = e.data.responseId;
       fbq('trackCustom','FreeEstimateSubmitted', getUTMs(), {event_id: eventId});
-      console.log('Typeform submitted... Facebook Pixel event sent:', eventId);
     }
   });
 </script>
