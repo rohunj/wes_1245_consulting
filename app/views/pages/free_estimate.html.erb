@@ -18,7 +18,7 @@
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-xl text-center">
       <h2 class="text-lg font-semibold leading-8 tracking-tight text-indigo-600">Free Estimate</h2>
-      <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">To receive a free estimate of your tax benefits, please complete the brief form below</p>
+      <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">To receive a free estimate of your tax benefits, please submit the form below with complete property details</p>
     </div><figure style="" class="col-span-2 sm:block sm:rounded-2xl mt-5 sm:bg-white sm:shadow-lg sm:ring-1 sm:ring-gray-900/5 xl:col-start-2 xl:row-end-1">
         <div class="sm:p-12 text-xl font-semibold leading-8 tracking-tight text-gray-900">
           <div id="typeform-embed">
@@ -146,9 +146,11 @@
   
   // Listen for Typeform submission events
   window.addEventListener('message', function(e) {
+    console.log('New message event received:', e.data);
     if (e.data && e.data.event && e.data.event === 'form-submit') {
       // Typeform was submitted, trigger Facebook Pixel event
-      fbq('trackCustom','FreeEstimateSubmitted', getUTMs());
+      var eventId = generateEventId('FreeEstimateSubmitted');
+      fbq('trackCustom','FreeEstimateSubmitted', getUTMs(), {event_id: eventId});
     }
   });
 </script>
