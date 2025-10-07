@@ -6,16 +6,23 @@
 }
 </style>
 
-<div class="bg-white" style="margin: -40px; position:relative">
-  <div class="relative isolate px-6 lg:px-8">
-    <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
-      <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
-    </div>
-    <div class="mx-auto max-w-4xl sm:py-16 lg:py-4">
-      <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto max-w-xl text-center">
-          <h2 class="text-lg font-semibold leading-8 tracking-tight text-indigo-600">Schedule a Call</h2>
-          <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Book a quick call to explore your tax savings with cost segregation</p>
+
+<div class="bg-white" style="margin-top: -70px; position:relative">
+  <div class="relative isolate lg:px-8">
+      <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true" style="">
+        <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+      </div>
+      <div class="mx-auto max-w-4xl sm:py-16 lg:py-4">
+        <div class="mx-auto max-w-7xl lg:px-8">
+          <div class="mx-auto text-center">
+            <div class="mt-5 justify-center flex">
+              <a href="/" class="-m-1.5 p-1.5">
+                <span class="sr-only">1245 Consulting</span>
+                <img class="h-12 sm:h-24 w-auto" src="<%= asset_path('logo.png') %>" alt="Logo">
+              </a>
+            </div>
+            <h2 class="text-lg mt-5 font-semibold leading-8 tracking-tight text-indigo-600">Schedule a Call</h2>
+            <p class="mt-2 text-lg lg:text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Book a quick call to explore your tax savings with cost segregation</p>
         </div>
         <figure class="col-span-2 sm:block sm:rounded-2xl mt-5 sm:bg-white sm:shadow-lg sm:ring-1 sm:ring-gray-900/5 xl:col-start-2 xl:row-end-1">
           <div class="sm:p-12 text-xl font-semibold leading-8 tracking-tight text-gray-900">
@@ -30,6 +37,7 @@
             </div>
           </div>
         </figure>
+        </div>
       </div>
     </div>
   </div>
@@ -93,6 +101,7 @@
     // Check if this page has already been initialized
     if (window.calendlyInitialized) return;
     window.calendlyInitialized = true;
+    //console.log('Calendly page initialized');
     
     // Trigger Facebook Pixel event
     var eventId = generateEventId('CalendlyVisited');
@@ -113,7 +122,7 @@
         event_id: eventId
       })
     }).catch(function(error) {
-      console.log('CAPI request failed:', error);
+      //console.log('CAPI request failed:', error);
     });
   }
   
@@ -128,6 +137,9 @@
 <script>
   // Load Calendly widget script after DOM is ready
   function loadCalendlyWidget() {
+    if(window.calendlyWidgetLoaded) return;
+    window.calendlyWidgetLoaded = true;
+    //console.log('Calendly widget loaded');
     var script = document.createElement('script');
     script.src = 'https://assets.calendly.com/assets/external/widget.js';
     script.async = true;
@@ -135,11 +147,9 @@
       // Wait for Calendly to be ready
       var checkCalendlyReady = function() {
         if (typeof Calendly !== 'undefined') {
-          // Initialize the widget
-          Calendly.initInlineWidget({
-            url: buildCalendlyUrl(),
-            parentElement: document.getElementById('calendly-inline-widget')
-          });
+          if(window.calendlyWidgetInitialized) return;
+          window.calendlyWidgetInitialized = true;
+          //console.log('Calendly widget initialized');
           
           // Listen for Calendly ready event
           window.addEventListener('message', function(e) {
@@ -207,7 +217,7 @@
           email: email
         })
       }).catch(function(error) {
-        console.log('CAPI request failed:', error);
+        //console.log('CAPI request failed:', error);
       });
     }
   });
